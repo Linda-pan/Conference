@@ -9,9 +9,12 @@ import com.elin4it.ssm.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 
 /**
@@ -23,9 +26,13 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
-    @RequestMapping("userdetail")
-    public
-    @ResponseBody
+    @RequestMapping("detail")
+    public String showDetail(HttpServletRequest request, ModelMap model){
+
+        return "user/userdetail";
+    }
+
+    @RequestMapping("userdetail") public @ResponseBody
     String getUserDetail(int userId) {
         JsonDataModel jsonDataModel = new JsonDataModel();
         try {
