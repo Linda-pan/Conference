@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="false">
+
+    <consolePlugin/>
+
+    <!-- 定义日志文件 输入位置 -->
+    <property resource="properties/log.properties" />
+
+    <!-- 控制台输出日志 -->
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!--error错误日志-->
+    <appender name="errorLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Prudent>false</Prudent>
+        <append>true</append>
+        <!-- 设置file属性，则当天的日志被写入该文件中，到了第二天会把该日志文件重命名成前一天日期的fileNamePattern的日志文件名，然后第二天的日志写入新的file -->
+        <file>${log_file_save_root_path}/error-log.log</file>
+        <!--
+                在多数的Log工具中，级别是可以传递，例如如果指定了日志输出级别为DEBUG，
+                那么INFO、ERROR级别的log也会出现在日志文件。这种默认给程序的调试带来了很多的麻烦
+                通过配置Filter 来严格控制日志输入级别 只写入ERROR日志 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- rollover daily -->
+            <fileNamePattern>${log_file_save_root_path}/error-log-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大历史 30天 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!--<pattern>[%-5level][%date][%-32logger{32}][%file%line] - %message %n
+            </pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!--info日志-->
+    <appender name="infoLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Prudent>false</Prudent>
+        <append>true</append>
+        <file>${log_file_save_root_path}/info-log.log</file>
+        <!--
+                在多数的Log工具中，级别是可以传递，例如如果指定了日志输出级别为DEBUG，
+                那么INFO、ERROR级别的log也会出现在日志文件。这种默认给程序的调试带来了很多的麻烦
+                通过配置Filter 来严格控制日志输入级别 ,不写入error级别日志  -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <!-- rollover daily -->
+            <fileNamePattern>${log_file_save_root_path}/info-log-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大历史 30天 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <!--<pattern>[%-5level][%date][%-32logger{32}][%file%line] - %message %n
+            </pattern>-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 访问日志 appender  -->
+    <appender name="accessLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <Prudent>false</Prudent>
+        <append>true</append>
+        <file>${log_file_save_root_path}/access-log.log</file>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>DENY</onMatch>
+            <onMismatch>ACCEPT</onMismatch>
+        </filter>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- 按天回滚 daily -->
+            <fileNamePattern>${log_file_save_root_path}/access-log-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- 日志最大的历史 60天 -->
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- 设置日志默认级别，打印到控制台和写入错误日志，如果日志没有指定具体日志级别，则会继承当前root的级别-->
+    <root level="${root_log_level}">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="errorLog"/>
+    </root>
+
+    <!--访问日志 ，debug级别以上,error日志级别以下的级别日志写入访问日志中，error写入Error日志中,可以配置多个appender-ref -->
+    <!-- 设置additivity="false" 是指但当前的类 执行完了打印的日志信息到配置的accessLog，errorLog，不会把要打印的日志信息传递给上一级log(包)(最后直到root)去执行root配置的appender-ref -->
+    <logger name="com.cpvsn.interceptor.AuthorizationInterceptor" level="debug" additivity="false">
+        <appender-ref ref="accessLog"/>
+        <appender-ref ref="errorLog"/>
+        <appender-ref ref="infoLog"/>
+    </logger>
+
+    <!-- 下面的包中在项目tomcat启动时会用到会输出一大堆的DEBUG日志,这里我们把日志级别设置为ERROR,只需要输出这些错误的日志就可以了 -->
+    <logger name="org.mybatis.spring" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="errorLog"/>
+    </logger>
+    <logger name="org.apache" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="errorLog"/>
+    </logger>
+    <logger name="org.springframework" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="errorLog"/>
+    </logger>
+    <logger name="org.springframework.web" level="ERROR" additivity="false">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="errorLog"/>
+    </logger>
+
+    <!--其他包下的日志由logger的最顶的上级root处理 -->
+
+</configuration>

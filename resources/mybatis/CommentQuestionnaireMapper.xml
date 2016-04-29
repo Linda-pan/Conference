@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elin4it.ssm.mapper.dao.CommentQuestionnaireMapperDao" >
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.CommentQuestionnaire" >
+    <id column="comment_q_id" property="commentQId" jdbcType="INTEGER" />
+    <result column="theme_id" property="themeId" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="q1" property="q1" jdbcType="VARCHAR" />
+    <result column="q2" property="q2" jdbcType="VARCHAR" />
+    <result column="q3" property="q3" jdbcType="VARCHAR" />
+    <result column="q4" property="q4" jdbcType="VARCHAR" />
+    <result column="q5" property="q5" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    comment_q_id, theme_id, update_time, admin_id, q1, q2, q3, q4, q5
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    <include refid="Base_Column_List" />
+    from comment_questionnaire
+    where comment_q_id = #{commentQId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from comment_questionnaire
+    where comment_q_id = #{commentQId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.CommentQuestionnaire" >
+    insert into comment_questionnaire (comment_q_id, theme_id, update_time,
+    admin_id, q1, q2, q3,
+    q4, q5)
+    values (#{commentQId,jdbcType=INTEGER}, #{themeId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP},
+    #{adminId,jdbcType=INTEGER}, #{q1,jdbcType=VARCHAR}, #{q2,jdbcType=VARCHAR}, #{q3,jdbcType=VARCHAR},
+    #{q4,jdbcType=VARCHAR}, #{q5,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.CommentQuestionnaire" >
+    insert into comment_questionnaire
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="commentQId != null" >
+        comment_q_id,
+      </if>
+      <if test="themeId != null" >
+        theme_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="q1 != null" >
+        q1,
+      </if>
+      <if test="q2 != null" >
+        q2,
+      </if>
+      <if test="q3 != null" >
+        q3,
+      </if>
+      <if test="q4 != null" >
+        q4,
+      </if>
+      <if test="q5 != null" >
+        q5,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="commentQId != null" >
+        #{commentQId,jdbcType=INTEGER},
+      </if>
+      <if test="themeId != null" >
+        #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="q1 != null" >
+        #{q1,jdbcType=VARCHAR},
+      </if>
+      <if test="q2 != null" >
+        #{q2,jdbcType=VARCHAR},
+      </if>
+      <if test="q3 != null" >
+        #{q3,jdbcType=VARCHAR},
+      </if>
+      <if test="q4 != null" >
+        #{q4,jdbcType=VARCHAR},
+      </if>
+      <if test="q5 != null" >
+        #{q5,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.CommentQuestionnaire" >
+    update comment_questionnaire
+    <set >
+      <if test="themeId != null" >
+        theme_id = #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="q1 != null" >
+        q1 = #{q1,jdbcType=VARCHAR},
+      </if>
+      <if test="q2 != null" >
+        q2 = #{q2,jdbcType=VARCHAR},
+      </if>
+      <if test="q3 != null" >
+        q3 = #{q3,jdbcType=VARCHAR},
+      </if>
+      <if test="q4 != null" >
+        q4 = #{q4,jdbcType=VARCHAR},
+      </if>
+      <if test="q5 != null" >
+        q5 = #{q5,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where comment_q_id = #{commentQId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.CommentQuestionnaire" >
+    update comment_questionnaire
+    set theme_id = #{themeId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      q1 = #{q1,jdbcType=VARCHAR},
+      q2 = #{q2,jdbcType=VARCHAR},
+      q3 = #{q3,jdbcType=VARCHAR},
+      q4 = #{q4,jdbcType=VARCHAR},
+      q5 = #{q5,jdbcType=VARCHAR}
+    where comment_q_id = #{commentQId,jdbcType=INTEGER}
+  </update>
+</mapper>

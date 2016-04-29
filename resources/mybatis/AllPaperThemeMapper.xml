@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elin4it.ssm.mapper.dao.AllPaperThemeMapperDao">
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.AllPaperTheme">
+    <result column="theme_id" jdbcType="INTEGER" property="themeId" />
+    <result column="theme" jdbcType="VARCHAR" property="theme" />
+  </resultMap>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.AllPaperTheme">
+    insert into all_paper_theme (theme_id, theme)
+    values (#{themeId,jdbcType=INTEGER}, #{theme,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.AllPaperTheme">
+    insert into all_paper_theme
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="themeId != null">
+        theme_id,
+      </if>
+      <if test="theme != null">
+        theme,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="themeId != null">
+        #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="theme != null">
+        #{theme,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

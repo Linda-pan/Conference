@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elin4it.ssm.mapper.dao.CommentMapperDao" >
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.Comment" >
+    <id column="paper_id" property="paperId" jdbcType="INTEGER" />
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="q1" property="q1" jdbcType="TINYINT" />
+    <result column="q2" property="q2" jdbcType="TINYINT" />
+    <result column="q3" property="q3" jdbcType="TINYINT" />
+    <result column="q4" property="q4" jdbcType="TINYINT" />
+    <result column="q5" property="q5" jdbcType="TINYINT" />
+    <result column="short_comment" property="shortComment" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    paper_id, user_id, q1, q2, q3, q4, q5, short_comment, score
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.elin4it.ssm.pojo.CommentKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from comment
+    where paper_id = #{paperId,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.elin4it.ssm.pojo.CommentKey" >
+    delete from comment
+    where paper_id = #{paperId,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.Comment" >
+    insert into comment (paper_id, user_id, q1, 
+      q2, q3, q4, q5, 
+      short_comment, score)
+    values (#{paperId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{q1,jdbcType=TINYINT}, 
+      #{q2,jdbcType=TINYINT}, #{q3,jdbcType=TINYINT}, #{q4,jdbcType=TINYINT}, #{q5,jdbcType=TINYINT}, 
+      #{shortComment,jdbcType=VARCHAR}, #{score,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.Comment" >
+    insert into comment
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="q1 != null" >
+        q1,
+      </if>
+      <if test="q2 != null" >
+        q2,
+      </if>
+      <if test="q3 != null" >
+        q3,
+      </if>
+      <if test="q4 != null" >
+        q4,
+      </if>
+      <if test="q5 != null" >
+        q5,
+      </if>
+      <if test="shortComment != null" >
+        short_comment,
+      </if>
+      <if test="score != null" >
+        score,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paperId != null" >
+        #{paperId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="q1 != null" >
+        #{q1,jdbcType=TINYINT},
+      </if>
+      <if test="q2 != null" >
+        #{q2,jdbcType=TINYINT},
+      </if>
+      <if test="q3 != null" >
+        #{q3,jdbcType=TINYINT},
+      </if>
+      <if test="q4 != null" >
+        #{q4,jdbcType=TINYINT},
+      </if>
+      <if test="q5 != null" >
+        #{q5,jdbcType=TINYINT},
+      </if>
+      <if test="shortComment != null" >
+        #{shortComment,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        #{score,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.Comment" >
+    update comment
+    <set >
+      <if test="q1 != null" >
+        q1 = #{q1,jdbcType=TINYINT},
+      </if>
+      <if test="q2 != null" >
+        q2 = #{q2,jdbcType=TINYINT},
+      </if>
+      <if test="q3 != null" >
+        q3 = #{q3,jdbcType=TINYINT},
+      </if>
+      <if test="q4 != null" >
+        q4 = #{q4,jdbcType=TINYINT},
+      </if>
+      <if test="q5 != null" >
+        q5 = #{q5,jdbcType=TINYINT},
+      </if>
+      <if test="shortComment != null" >
+        short_comment = #{shortComment,jdbcType=VARCHAR},
+      </if>
+      <if test="score != null" >
+        score = #{score,jdbcType=TINYINT},
+      </if>
+    </set>
+    where paper_id = #{paperId,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.Comment" >
+    update comment
+    set q1 = #{q1,jdbcType=TINYINT},
+      q2 = #{q2,jdbcType=TINYINT},
+      q3 = #{q3,jdbcType=TINYINT},
+      q4 = #{q4,jdbcType=TINYINT},
+      q5 = #{q5,jdbcType=TINYINT},
+      short_comment = #{shortComment,jdbcType=VARCHAR},
+      score = #{score,jdbcType=TINYINT}
+    where paper_id = #{paperId,jdbcType=INTEGER}
+      and user_id = #{userId,jdbcType=INTEGER}
+  </update>
+</mapper>

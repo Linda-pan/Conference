@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elin4it.ssm.mapper.dao.ConferenceStatusMapperDao" >
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.ConferenceStatus" >
+    <id column="conference_id" property="conferenceId" jdbcType="INTEGER" />
+    <id column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="conference_status" property="conferenceStatus" jdbcType="TINYINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    conference_id, update_time, admin_id, conference_status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.elin4it.ssm.pojo.ConferenceStatusKey" >
+    select 
+    <include refid="Base_Column_List" />
+    from conference_status
+    where conference_id = #{conferenceId,jdbcType=INTEGER}
+      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="com.elin4it.ssm.pojo.ConferenceStatusKey" >
+    delete from conference_status
+    where conference_id = #{conferenceId,jdbcType=INTEGER}
+      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+  </delete>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.ConferenceStatus" >
+    insert into conference_status (conference_id, update_time, admin_id, 
+      conference_status)
+    values (#{conferenceId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{adminId,jdbcType=INTEGER}, 
+      #{conferenceStatus,jdbcType=TINYINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.ConferenceStatus" >
+    insert into conference_status
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="conferenceId != null" >
+        conference_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="conferenceStatus != null" >
+        conference_status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="conferenceId != null" >
+        #{conferenceId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="conferenceStatus != null" >
+        #{conferenceStatus,jdbcType=TINYINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.ConferenceStatus" >
+    update conference_status
+    <set >
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="conferenceStatus != null" >
+        conference_status = #{conferenceStatus,jdbcType=TINYINT},
+      </if>
+    </set>
+    where conference_id = #{conferenceId,jdbcType=INTEGER}
+      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.ConferenceStatus" >
+    update conference_status
+    set admin_id = #{adminId,jdbcType=INTEGER},
+      conference_status = #{conferenceStatus,jdbcType=TINYINT}
+    where conference_id = #{conferenceId,jdbcType=INTEGER}
+      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+  </update>
+</mapper>

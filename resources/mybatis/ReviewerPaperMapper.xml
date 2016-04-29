@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elin4it.ssm.mapper.dao.ReviewerPaperMapperDao" >
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.ReviewerPaperKey" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <id column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <id column="paper_id" property="paperId" jdbcType="INTEGER" />
+  </resultMap>
+  <delete id="deleteByPrimaryKey" parameterType="com.elin4it.ssm.pojo.ReviewerPaperKey" >
+    delete from reviewer_paper
+    where user_id = #{userId,jdbcType=INTEGER}
+      and admin_id = #{adminId,jdbcType=INTEGER}
+      and paper_id = #{paperId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.ReviewerPaperKey" >
+    insert into reviewer_paper (user_id, admin_id, paper_id
+      )
+    values (#{userId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{paperId,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.ReviewerPaperKey" >
+    insert into reviewer_paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="paperId != null" >
+        #{paperId,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+</mapper>

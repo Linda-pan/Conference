@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elin4it.ssm.mapper.dao.PaperMapperDao" >
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.Paper" >
+    <id column="paper_id" property="paperId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="paper_name" property="paperName" jdbcType="VARCHAR" />
+    <result column="paper_content" property="paperContent" jdbcType="VARCHAR" />
+    <result column="paper_status" property="paperStatus" jdbcType="TINYINT" />
+    <result column="average_score" property="averageScore" jdbcType="INTEGER" />
+    <result column="is_email_post" property="isEmailPost" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    paper_id, user_id, paper_name, paper_content, paper_status, average_score, is_email_post
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from paper
+    where paper_id = #{paperId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from paper
+    where paper_id = #{paperId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.Paper" >
+    insert into paper (paper_id, user_id, paper_name, 
+      paper_content, paper_status, average_score, 
+      is_email_post)
+    values (#{paperId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{paperName,jdbcType=VARCHAR}, 
+      #{paperContent,jdbcType=VARCHAR}, #{paperStatus,jdbcType=TINYINT}, #{averageScore,jdbcType=INTEGER}, 
+      #{isEmailPost,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.Paper" >
+    insert into paper
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="paperId != null" >
+        paper_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="paperName != null" >
+        paper_name,
+      </if>
+      <if test="paperContent != null" >
+        paper_content,
+      </if>
+      <if test="paperStatus != null" >
+        paper_status,
+      </if>
+      <if test="averageScore != null" >
+        average_score,
+      </if>
+      <if test="isEmailPost != null" >
+        is_email_post,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="paperId != null" >
+        #{paperId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="paperName != null" >
+        #{paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="paperContent != null" >
+        #{paperContent,jdbcType=VARCHAR},
+      </if>
+      <if test="paperStatus != null" >
+        #{paperStatus,jdbcType=TINYINT},
+      </if>
+      <if test="averageScore != null" >
+        #{averageScore,jdbcType=INTEGER},
+      </if>
+      <if test="isEmailPost != null" >
+        #{isEmailPost,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.Paper" >
+    update paper
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="paperName != null" >
+        paper_name = #{paperName,jdbcType=VARCHAR},
+      </if>
+      <if test="paperContent != null" >
+        paper_content = #{paperContent,jdbcType=VARCHAR},
+      </if>
+      <if test="paperStatus != null" >
+        paper_status = #{paperStatus,jdbcType=TINYINT},
+      </if>
+      <if test="averageScore != null" >
+        average_score = #{averageScore,jdbcType=INTEGER},
+      </if>
+      <if test="isEmailPost != null" >
+        is_email_post = #{isEmailPost,jdbcType=BIT},
+      </if>
+    </set>
+    where paper_id = #{paperId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.Paper" >
+    update paper
+    set user_id = #{userId,jdbcType=INTEGER},
+      paper_name = #{paperName,jdbcType=VARCHAR},
+      paper_content = #{paperContent,jdbcType=VARCHAR},
+      paper_status = #{paperStatus,jdbcType=TINYINT},
+      average_score = #{averageScore,jdbcType=INTEGER},
+      is_email_post = #{isEmailPost,jdbcType=BIT}
+    where paper_id = #{paperId,jdbcType=INTEGER}
+  </update>
+</mapper>

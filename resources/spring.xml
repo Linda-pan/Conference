@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-3.2.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+     http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+     http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd">
+
+    <context:property-placeholder location="classpath:properties/jdbc.properties"/>
+
+    <context:component-scan base-package="com.elin4it.ssm.*" use-default-filters="false">
+        <!-- 可以使用<context:include-filter>扫描指定包或者指定的注解的bean可以用<context:exclude-filter> 指定不扫描
+         但是前提必须设置use-default-filters="false" ，否则use-default-filters=默认是true会扫描所有的加了bean注解的bean -->
+        <!-- 扫描注解了@Service,@Repository,@Component注解的bean,也可设置扫描指定的包 -->
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+        <!-- 不扫描controller包下的或者可以用  <context:exclude-filter type="regex" expression="com\.cpvsn\.controller.*"/>
+         controller包在vc-dispatcher-servlet.xml中扫描/> -->
+        <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        <!--不扫描com.cpvsn.interceptor.DisableUrlSessionFilter类-->
+        <!--     <context:exclude-filter type="assignable" expression="com.cpvsn.interceptor.DisableUrlSessionFilter"/>-->
+    </context:component-scan>
+
+    <!-- ksexpt数据源配置,使用应用内的DBCP数据库连接池 -->
+    <bean id="ksexpt_dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${ksexpt_datasource.driverClassName}"/>
+        <property name="url" value="${ksexpt_datasource.url}"/>
+        <property name="username" value="${ksexpt_datasource.username}"/>
+        <property name="password" value="${ksexpt_datasource.password}"/>
+        <property name="initialSize" value="5"/>
+        <property name="maxActive" value="100"/>
+        <property name="maxIdle" value="30"/>
+        <property name="maxWait" value="1000"/>
+        <property name="poolPreparedStatements" value="false"/>
+        <property name="defaultAutoCommit" value="false"/>
+    </bean>
+
+    <bean id="ksexptSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="ksexpt_dataSource"/>
+        <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"/>
+    </bean>
+
+    <!-- 配置SqlSessionTemplate模板，注入相关配置 -->
+     <bean id="ksexptSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+         <constructor-arg index="0" ref="ksexptSqlSessionFactory"/>
+     </bean>
+
+    <bean id="ksexptMapperScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage"
+                  value="com.elin4it.ssm.mapper.dao"/>
+        <!-- 注意注入sqlSessionTemplate -->
+           <property name="sqlSessionTemplateBeanName" value="ksexptSqlSessionTemplate"/>
+    </bean>
+
+
+    <!-- 添加ksexpt数据库的commit事务管理 -->
+       <bean id="ksexptTransactionManager"
+             class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+           <property name="dataSource" ref="ksexpt_dataSource"/>
+       </bean>
+
+    <!-- 开启事务控制的注解支持 -->
+      <tx:annotation-driven transaction-manager="ksexptTransactionManager"/>
+
+    <!-- 定义全局未捕获处理的异常添加一个处理 -->
+    <bean id="exceptionHandler" class="com.elin4it.ssm.handler.CustomerExceptionHandler"/>
+</beans>
+

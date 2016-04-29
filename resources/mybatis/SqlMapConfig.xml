@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="true" />
+        <setting name="lazyLoadingEnabled" value="false" />
+        <setting name="useGeneratedKeys" value="true" />
+        <setting name="logPrefix" value="database.pay-" />
+        <setting name="mapUnderscoreToCamelCase" value="true" />
+    </settings>
+
+    <typeAliases>
+        <typeAlias alias="User" type="com.elin4it.ssm.pojo.User" />
+        <typeAlias alias="Conference" type="com.elin4it.ssm.pojo.Conference" />
+        <typeAlias alias="Comment" type="com.elin4it.ssm.pojo.Comment" />
+        <typeAlias alias="CommentKey" type="com.elin4it.ssm.pojo.CommentKey" />
+        <typeAlias alias="ConferenceStatus" type="com.elin4it.ssm.pojo.ConferenceStatus" />
+        <typeAlias alias="Notice" type="com.elin4it.ssm.pojo.Notice"/>
+        <typeAlias alias="Paper" type="com.elin4it.ssm.pojo.Paper"/>
+        <typeAlias alias="CommentQuestionnaire" type="com.elin4it.ssm.pojo.CommentQuestionnaire"/>
+        <typeAlias alias="PaperTheme" type="com.elin4it.ssm.pojo.PaperTheme"/>
+        <typeAlias alias="AllPaperTheme" type="com.elin4it.ssm.pojo.AllPaperTheme"/>
+    </typeAliases>
+
+    <mappers>
+        <mapper resource="mybatis/UserMapper.xml" />
+        <mapper resource="mybatis/ConferenceMapper.xml" />
+        <mapper resource="mybatis/CommentMapper.xml" />
+        <mapper resource="mybatis/CommentQuestionnaireMapper.xml" />
+
+        <mapper resource="mybatis/ConferenceStatusMapper.xml" />
+        <mapper resource="mybatis/NoticeMapper.xml" />
+        <mapper resource="mybatis/PaperMapper.xml" />
+        <mapper resource="mybatis/ReviewerPaperMapper.xml" />
+        <mapper resource="mybatis/PaperThemeMapper.xml" />
+        <mapper resource="mybatis/AllPaperThemeMapper.xml" />
+    </mappers>
+
+</configuration>

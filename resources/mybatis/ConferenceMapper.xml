@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elin4it.ssm.mapper.dao.ConferenceMapperDao" >
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.Conference" >
+    <id column="conference_id" property="conferenceId" jdbcType="INTEGER" />
+    <result column="conference_name" property="conferenceName" jdbcType="VARCHAR" />
+    <result column="conference_intro" property="conferenceIntro" jdbcType="VARCHAR" />
+    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    conference_id, conference_name, conference_intro, start_time, end_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from conference
+    where conference_id = #{conferenceId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from conference
+    where conference_id = #{conferenceId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.Conference" >
+    insert into conference (conference_id, conference_name, conference_intro, 
+      start_time, end_time)
+    values (#{conferenceId,jdbcType=INTEGER}, #{conferenceName,jdbcType=VARCHAR}, #{conferenceIntro,jdbcType=VARCHAR}, 
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.Conference" >
+    insert into conference
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="conferenceId != null" >
+        conference_id,
+      </if>
+      <if test="conferenceName != null" >
+        conference_name,
+      </if>
+      <if test="conferenceIntro != null" >
+        conference_intro,
+      </if>
+      <if test="startTime != null" >
+        start_time,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="conferenceId != null" >
+        #{conferenceId,jdbcType=INTEGER},
+      </if>
+      <if test="conferenceName != null" >
+        #{conferenceName,jdbcType=VARCHAR},
+      </if>
+      <if test="conferenceIntro != null" >
+        #{conferenceIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.Conference" >
+    update conference
+    <set >
+      <if test="conferenceName != null" >
+        conference_name = #{conferenceName,jdbcType=VARCHAR},
+      </if>
+      <if test="conferenceIntro != null" >
+        conference_intro = #{conferenceIntro,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        start_time = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where conference_id = #{conferenceId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.Conference" >
+    update conference
+    set conference_name = #{conferenceName,jdbcType=VARCHAR},
+      conference_intro = #{conferenceIntro,jdbcType=VARCHAR},
+      start_time = #{startTime,jdbcType=TIMESTAMP},
+      end_time = #{endTime,jdbcType=TIMESTAMP}
+    where conference_id = #{conferenceId,jdbcType=INTEGER}
+  </update>
+</mapper>

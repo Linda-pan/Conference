@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.elin4it.ssm.mapper.dao.UserMapperDao">
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.User" >
+    <id column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="true_name" property="trueName" jdbcType="VARCHAR" />
+    <result column="is_show_name" property="isShowName" jdbcType="BIT" />
+    <result column="telephone" property="telephone" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="is_email_confirmed" property="isEmailConfirmed" jdbcType="BIT" />
+    <result column="username" property="username" jdbcType="VARCHAR" />
+    <result column="role_id" property="roleId" jdbcType="TINYINT" />
+    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="payment_voucher" property="paymentVoucher" jdbcType="VARCHAR" />
+    <result column="is_payment_confirmed" property="isPaymentConfirmed" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, admin_id, true_name, is_show_name, telephone, email, is_email_confirmed, 
+    username, role_id, account, password, payment_voucher, is_payment_confirmed
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from user
+    where user_id = #{userId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.User" >
+    insert into user (user_id, admin_id, true_name, 
+      is_show_name, telephone, email, 
+      is_email_confirmed, username, role_id, 
+      account, password, payment_voucher, 
+      is_payment_confirmed)
+    values (#{userId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{trueName,jdbcType=VARCHAR}, 
+      #{isShowName,jdbcType=BIT}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
+      #{isEmailConfirmed,jdbcType=BIT}, #{username,jdbcType=VARCHAR}, #{roleId,jdbcType=TINYINT}, 
+      #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{paymentVoucher,jdbcType=VARCHAR}, 
+      #{isPaymentConfirmed,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.User" >
+    insert into user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="trueName != null" >
+        true_name,
+      </if>
+      <if test="isShowName != null" >
+        is_show_name,
+      </if>
+      <if test="telephone != null" >
+        telephone,
+      </if>
+      <if test="email != null" >
+        email,
+      </if>
+      <if test="isEmailConfirmed != null" >
+        is_email_confirmed,
+      </if>
+      <if test="username != null" >
+        username,
+      </if>
+      <if test="roleId != null" >
+        role_id,
+      </if>
+      <if test="account != null" >
+        account,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="paymentVoucher != null" >
+        payment_voucher,
+      </if>
+      <if test="isPaymentConfirmed != null" >
+        is_payment_confirmed,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="trueName != null" >
+        #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="isShowName != null" >
+        #{isShowName,jdbcType=BIT},
+      </if>
+      <if test="telephone != null" >
+        #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isEmailConfirmed != null" >
+        #{isEmailConfirmed,jdbcType=BIT},
+      </if>
+      <if test="username != null" >
+        #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=TINYINT},
+      </if>
+      <if test="account != null" >
+        #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentVoucher != null" >
+        #{paymentVoucher,jdbcType=VARCHAR},
+      </if>
+      <if test="isPaymentConfirmed != null" >
+        #{isPaymentConfirmed,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.User" >
+    update user
+    <set >
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="trueName != null" >
+        true_name = #{trueName,jdbcType=VARCHAR},
+      </if>
+      <if test="isShowName != null" >
+        is_show_name = #{isShowName,jdbcType=BIT},
+      </if>
+      <if test="telephone != null" >
+        telephone = #{telephone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="isEmailConfirmed != null" >
+        is_email_confirmed = #{isEmailConfirmed,jdbcType=BIT},
+      </if>
+      <if test="username != null" >
+        username = #{username,jdbcType=VARCHAR},
+      </if>
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=TINYINT},
+      </if>
+      <if test="account != null" >
+        account = #{account,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="paymentVoucher != null" >
+        payment_voucher = #{paymentVoucher,jdbcType=VARCHAR},
+      </if>
+      <if test="isPaymentConfirmed != null" >
+        is_payment_confirmed = #{isPaymentConfirmed,jdbcType=BIT},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.User" >
+    update user
+    set admin_id = #{adminId,jdbcType=INTEGER},
+      true_name = #{trueName,jdbcType=VARCHAR},
+      is_show_name = #{isShowName,jdbcType=BIT},
+      telephone = #{telephone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      is_email_confirmed = #{isEmailConfirmed,jdbcType=BIT},
+      username = #{username,jdbcType=VARCHAR},
+      role_id = #{roleId,jdbcType=TINYINT},
+      account = #{account,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      payment_voucher = #{paymentVoucher,jdbcType=VARCHAR},
+      is_payment_confirmed = #{isPaymentConfirmed,jdbcType=BIT}
+    where user_id = #{userId,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByNameAndPwd" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select *
+    from user
+    where username= #{userName} and  password = #{password}
+  </select>
+
+  <select id="selectByName" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select *
+    from user
+    where username= #{userName}
+  </select>
+</mapper>
