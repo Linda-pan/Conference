@@ -4,7 +4,7 @@
     <consolePlugin/>
 
     <!-- 定义日志文件 输入位置 -->
-    <property resource="properties/log.properties" />
+    <property resource="properties/log4j.properties" />
 
     <!-- 控制台输出日志 -->
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">

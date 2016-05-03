@@ -13,8 +13,7 @@ public interface UserMapperDao extends UserMapper {
 
     User selectByNameAndPwd(@Param(value = "userName") String userName, @Param(value = "password") String password);
 
-    User selectByPrimaryKey(int userId);
-
     User selectByName(String username);
+
 
 }

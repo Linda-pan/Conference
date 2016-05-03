@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.elin4it.ssm.mapper.dao.UserMapperDao">
+<mapper namespace="com.elin4it.ssm.mapper.dao.UserMapperDao" >
   <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.User" >
     <id column="user_id" property="userId" jdbcType="INTEGER" />
     <result column="admin_id" property="adminId" jdbcType="INTEGER" />
@@ -11,14 +11,14 @@
     <result column="is_email_confirmed" property="isEmailConfirmed" jdbcType="BIT" />
     <result column="username" property="username" jdbcType="VARCHAR" />
     <result column="role_id" property="roleId" jdbcType="TINYINT" />
-    <result column="account" property="account" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
     <result column="payment_voucher" property="paymentVoucher" jdbcType="VARCHAR" />
     <result column="is_payment_confirmed" property="isPaymentConfirmed" jdbcType="BIT" />
   </resultMap>
   <sql id="Base_Column_List" >
     user_id, admin_id, true_name, is_show_name, telephone, email, is_email_confirmed, 
-    username, role_id, account, password, payment_voucher, is_payment_confirmed
+    username, role_id, title, password, payment_voucher, is_payment_confirmed
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -34,12 +34,12 @@
     insert into user (user_id, admin_id, true_name, 
       is_show_name, telephone, email, 
       is_email_confirmed, username, role_id, 
-      account, password, payment_voucher, 
+      title, password, payment_voucher, 
       is_payment_confirmed)
     values (#{userId,jdbcType=INTEGER}, #{adminId,jdbcType=INTEGER}, #{trueName,jdbcType=VARCHAR}, 
       #{isShowName,jdbcType=BIT}, #{telephone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{isEmailConfirmed,jdbcType=BIT}, #{username,jdbcType=VARCHAR}, #{roleId,jdbcType=TINYINT}, 
-      #{account,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{paymentVoucher,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{paymentVoucher,jdbcType=VARCHAR}, 
       #{isPaymentConfirmed,jdbcType=BIT})
   </insert>
   <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.User" >
@@ -72,8 +72,8 @@
       <if test="roleId != null" >
         role_id,
       </if>
-      <if test="account != null" >
-        account,
+      <if test="title != null" >
+        title,
       </if>
       <if test="password != null" >
         password,
@@ -113,8 +113,8 @@
       <if test="roleId != null" >
         #{roleId,jdbcType=TINYINT},
       </if>
-      <if test="account != null" >
-        #{account,jdbcType=VARCHAR},
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         #{password,jdbcType=VARCHAR},
@@ -154,8 +154,8 @@
       <if test="roleId != null" >
         role_id = #{roleId,jdbcType=TINYINT},
       </if>
-      <if test="account != null" >
-        account = #{account,jdbcType=VARCHAR},
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >
         password = #{password,jdbcType=VARCHAR},
@@ -169,7 +169,6 @@
     </set>
     where user_id = #{userId,jdbcType=INTEGER}
   </update>
-
   <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.User" >
     update user
     set admin_id = #{adminId,jdbcType=INTEGER},
@@ -180,7 +179,7 @@
       is_email_confirmed = #{isEmailConfirmed,jdbcType=BIT},
       username = #{username,jdbcType=VARCHAR},
       role_id = #{roleId,jdbcType=TINYINT},
-      account = #{account,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
       payment_voucher = #{paymentVoucher,jdbcType=VARCHAR},
       is_payment_confirmed = #{isPaymentConfirmed,jdbcType=BIT}

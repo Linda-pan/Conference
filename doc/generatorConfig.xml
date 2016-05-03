@@ -76,12 +76,12 @@
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
         </table>-->
-        <table tableName="paper" domainObjectName="Paper" enableInsert="true"
+       <!-- <table tableName="paper" domainObjectName="Paper" enableInsert="true"
                enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
-        </table>
+        </table>-->
        <!-- <table tableName="reviewer_paper" domainObjectName="ReviewerPaper" enableInsert="true"
                enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
@@ -100,12 +100,12 @@
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
         </table>-->
-       <!-- <table tableName="user" domainObjectName="User" enableInsert="true"
+        <table tableName="user" domainObjectName="User" enableInsert="true"
                enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
-        </table>-->
+        </table>
     </context>
 
 </generatorConfiguration>

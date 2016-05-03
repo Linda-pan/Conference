@@ -1,7 +1,5 @@
 package com.elin4it.ssm.service;
 
-import com.elin4it.ssm.mapper.CommentMapper;
-import com.elin4it.ssm.mapper.dao.CommentMapperDao;
 import com.elin4it.ssm.mapper.dao.UserMapperDao;
 import com.elin4it.ssm.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,5 +25,13 @@ public class UserService{
 
     public User selectById(int id){
         return userMapperDao.selectByPrimaryKey(id);
+    }
+
+    public int insert(User user){
+        return userMapperDao.insertSelective(user);
+    }
+
+    public int update(User user){
+        return userMapperDao.updateByPrimaryKeySelective(user);
     }
 }

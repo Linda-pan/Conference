@@ -1,9 +1,8 @@
 package com.elin4it.ssm.controller;
 
+import com.elin4it.ssm.pojo.User;
 import com.elin4it.ssm.model.AdminRights;
 import com.elin4it.ssm.model.SessionUser;
-import com.elin4it.ssm.model.SessionUserMenuInfo;
-import com.elin4it.ssm.pojo.User;
 import com.elin4it.ssm.service.AppAdminService;
 import com.elin4it.ssm.service.MenuInfoService;
 import com.elin4it.ssm.service.UserService;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.List;
 
 /**
  * Created by jpan on 2016/4/22.

@@ -19,7 +19,7 @@ public class User {
 
     private Byte roleId;
 
-    private String account;
+    private String title;
 
     private String password;
 
@@ -99,12 +99,12 @@ public class User {
         this.roleId = roleId;
     }
 
-    public String getAccount() {
-        return account;
+    public String getTitle() {
+        return title;
     }
 
-    public void setAccount(String account) {
-        this.account = account == null ? null : account.trim();
+    public void setTitle(String title) {
+        this.title = title == null ? null : title.trim();
     }
 
     public String getPassword() {
@@ -129,24 +129,5 @@ public class User {
 
     public void setIsPaymentConfirmed(Boolean isPaymentConfirmed) {
         this.isPaymentConfirmed = isPaymentConfirmed;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", adminId=" + adminId +
-                ", trueName='" + trueName + '\'' +
-                ", isShowName=" + isShowName +
-                ", telephone='" + telephone + '\'' +
-                ", email='" + email + '\'' +
-                ", isEmailConfirmed=" + isEmailConfirmed +
-                ", username='" + username + '\'' +
-                ", roleId=" + roleId +
-                ", account='" + account + '\'' +
-                ", password='" + password + '\'' +
-                ", paymentVoucher='" + paymentVoucher + '\'' +
-                ", isPaymentConfirmed=" + isPaymentConfirmed +
-                '}';
     }
 }
