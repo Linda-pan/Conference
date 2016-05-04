@@ -1,16 +1,15 @@
 package com.elin4it.ssm.mapper;
 
 import com.elin4it.ssm.pojo.ConferenceStatus;
-import com.elin4it.ssm.pojo.ConferenceStatusKey;
 
 public interface ConferenceStatusMapper {
-    int deleteByPrimaryKey(ConferenceStatusKey key);
+    int deleteByPrimaryKey(Integer id);
 
     int insert(ConferenceStatus record);
 
     int insertSelective(ConferenceStatus record);
 
-    ConferenceStatus selectByPrimaryKey(ConferenceStatusKey key);
+    ConferenceStatus selectByPrimaryKey(Integer id);
 
     int updateByPrimaryKeySelective(ConferenceStatus record);
 

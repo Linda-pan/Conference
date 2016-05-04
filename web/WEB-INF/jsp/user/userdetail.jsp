@@ -1,3 +1,5 @@
+<%@ page import="com.elin4it.ssm.model.SessionUser" %>
+<%@ page import="com.elin4it.ssm.utils.WebUtil" %>
 <%@ taglib prefix="width" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sql" uri="http://java.sun.com/jsp/jstl/sql" %>
@@ -12,7 +14,10 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
 <%@ include file="/WEB-INF/common/submenu.jsp" %>
-
+<%
+    SessionUser user = WebUtil.getCurrentUser(request);
+    int userId = user.getUserId();
+%>
 <div class="container-fluid" id="user_detail_id">
     <div class="row-fluid">
         <div class="tit">
@@ -21,9 +26,7 @@
         <div class="mymodal-form clearfix">
             <form id="frm_id" method="post" action="">
 
-                <c:set var="type"
-                       value="${userId}"/>
-                <input type="hidden" id="user_id" name="userId" value="${type}"/>
+                <input type="hidden" id="user_id" name="userId" value="<%=userId%>"/>
 
                 <ul>
                     <li>
@@ -83,16 +86,14 @@
     </div>
 </div>
 
-<div class="mymodal" style="display: none;" id="change_detail_id" >
+<div class="mymodal" style="display: none;" id="change_detail_id">
     <div class="tit">
         <h2>修改用户信息</h2>
         <a href="javascript:;" class="closes" id="change_detail_close">取消</a>
     </div>
     <div class="mymodal-form clearfix">
-        <form id="frm2_id" method="post" action="${ctx }/user/save">
-            <c:set var="type"
-                   value="${userId}"/>
-            <input type="hidden" id="user2_id" name="userId" value="${type}"/>
+        <form id="detail_id" method="post" action="${ctx }/user/save">
+            <input type="hidden" id="user2_id" name="userId"/>
             <ul>
                 <li>
                     <label style=" width:150px;">用户名：</label>
@@ -154,7 +155,7 @@
 </div>
 
 <script>
-    $(function show() {
+    $(function () {
         var userId = $('#user_id').val();
         $.ajax({
             url: '${ctx}/user/userdetail',
@@ -178,20 +179,6 @@
                                 $('#is_show_name_id').val(1);
                             }
                             $('#trueName_id').val(user.trueName);
-
-
-                            $('#user2_id').val(userId);
-                            $('#username1_id').val(user.username);
-                            $('#telephone1_id').val(user.telephone);
-                            $('#title1_id').val(user.title);
-                            $('#email1_id').val(user.email);
-
-                            if (user.isShowName == true) {
-                                $('#is_show_name1_id').val(0);
-                            } else {
-                                $('#is_show_name1_id').val(1);
-                            }
-                            $('#trueName1_id').val(user.trueName);
                         }
                     } else {
                         $.scojs_message(result.message, $.scojs_message.TYPE_ERROR);
@@ -206,9 +193,45 @@
         $('#change_detail_close').on('click', function () {
             closeModal("change_detail_id", "change_detail_mask");
         });
-    })
+    });
 
     function changeDetail() {
+        var userId = $('#user_id').val();
+        $.ajax({
+            url: '${ctx}/user/userdetail',
+            type: 'post',
+            datatype: 'json',
+            data: {userId: userId},
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result != null) {
+                    if (result.status == 'true') {
+                        var user = result.data;
+                        if (user != null) {
+                            $('#user2_id').val(userId);
+                            $('#username1_id').val(user.username);
+                            $('#telephone1_id').val(user.telephone);
+                            $('#title1_id').val(user.title);
+                            $('#email1_id').val(user.email);
+
+                            if (user.isShowName == 'true') {
+                                $('#is_show_name1_id').val(0);
+                            } else {
+                                $('#is_show_name1_id').val(1);
+                            }
+                            $('#trueName1_id').val(user.trueName);
+                        }
+
+                    } else {
+                        $.scojs_message(result.message, $.scojs_message.TYPE_ERROR);
+                    }
+                }
+            },
+            error: function (result) {
+                requestError(result);
+            }
+        });
+
         showModal("change_detail_id", "change_detail_mask");
     }
 

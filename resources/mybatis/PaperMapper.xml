@@ -1,117 +1,155 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.elin4it.ssm.mapper.dao.PaperMapperDao" >
-  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.Paper" >
-    <id column="paper_id" property="paperId" jdbcType="INTEGER" />
-    <result column="user_id" property="userId" jdbcType="INTEGER" />
-    <result column="paper_name" property="paperName" jdbcType="VARCHAR" />
-    <result column="paper_content" property="paperContent" jdbcType="VARCHAR" />
-    <result column="paper_status" property="paperStatus" jdbcType="TINYINT" />
-    <result column="average_score" property="averageScore" jdbcType="INTEGER" />
-    <result column="is_email_post" property="isEmailPost" jdbcType="BIT" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elin4it.ssm.mapper.dao.PaperMapperDao">
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.Paper">
+    <id column="paper_id" jdbcType="INTEGER" property="paperId" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="paper_name" jdbcType="VARCHAR" property="paperName" />
+    <result column="paper_content" jdbcType="VARCHAR" property="paperContent" />
+    <result column="paper_status" jdbcType="TINYINT" property="paperStatus" />
+    <result column="average_score" jdbcType="INTEGER" property="averageScore" />
+    <result column="is_email_post" jdbcType="BIT" property="isEmailPost" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    paper_id, user_id, paper_name, paper_content, paper_status, average_score, is_email_post
+  <sql id="Base_Column_List">
+    paper_id, user_id, paper_name, paper_content, paper_status, average_score, is_email_post, 
+    create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from paper
     where paper_id = #{paperId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from paper
     where paper_id = #{paperId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.elin4it.ssm.pojo.Paper" >
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.Paper">
     insert into paper (paper_id, user_id, paper_name, 
       paper_content, paper_status, average_score, 
-      is_email_post)
+      is_email_post, create_time, update_time
+      )
     values (#{paperId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{paperName,jdbcType=VARCHAR}, 
       #{paperContent,jdbcType=VARCHAR}, #{paperStatus,jdbcType=TINYINT}, #{averageScore,jdbcType=INTEGER}, 
-      #{isEmailPost,jdbcType=BIT})
+      #{isEmailPost,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.Paper" >
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.Paper">
     insert into paper
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="paperId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paperId != null">
         paper_id,
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         user_id,
       </if>
-      <if test="paperName != null" >
+      <if test="paperName != null">
         paper_name,
       </if>
-      <if test="paperContent != null" >
+      <if test="paperContent != null">
         paper_content,
       </if>
-      <if test="paperStatus != null" >
+      <if test="paperStatus != null">
         paper_status,
       </if>
-      <if test="averageScore != null" >
+      <if test="averageScore != null">
         average_score,
       </if>
-      <if test="isEmailPost != null" >
+      <if test="isEmailPost != null">
         is_email_post,
       </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="paperId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paperId != null">
         #{paperId,jdbcType=INTEGER},
       </if>
-      <if test="userId != null" >
+      <if test="userId != null">
         #{userId,jdbcType=INTEGER},
       </if>
-      <if test="paperName != null" >
+      <if test="paperName != null">
         #{paperName,jdbcType=VARCHAR},
       </if>
-      <if test="paperContent != null" >
+      <if test="paperContent != null">
         #{paperContent,jdbcType=VARCHAR},
       </if>
-      <if test="paperStatus != null" >
+      <if test="paperStatus != null">
         #{paperStatus,jdbcType=TINYINT},
       </if>
-      <if test="averageScore != null" >
+      <if test="averageScore != null">
         #{averageScore,jdbcType=INTEGER},
       </if>
-      <if test="isEmailPost != null" >
+      <if test="isEmailPost != null">
         #{isEmailPost,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.Paper" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.Paper">
     update paper
-    <set >
-      <if test="userId != null" >
+    <set>
+      <if test="userId != null">
         user_id = #{userId,jdbcType=INTEGER},
       </if>
-      <if test="paperName != null" >
+      <if test="paperName != null">
         paper_name = #{paperName,jdbcType=VARCHAR},
       </if>
-      <if test="paperContent != null" >
+      <if test="paperContent != null">
         paper_content = #{paperContent,jdbcType=VARCHAR},
       </if>
-      <if test="paperStatus != null" >
+      <if test="paperStatus != null">
         paper_status = #{paperStatus,jdbcType=TINYINT},
       </if>
-      <if test="averageScore != null" >
+      <if test="averageScore != null">
         average_score = #{averageScore,jdbcType=INTEGER},
       </if>
-      <if test="isEmailPost != null" >
+      <if test="isEmailPost != null">
         is_email_post = #{isEmailPost,jdbcType=BIT},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where paper_id = #{paperId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.Paper" >
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.Paper">
     update paper
     set user_id = #{userId,jdbcType=INTEGER},
       paper_name = #{paperName,jdbcType=VARCHAR},
       paper_content = #{paperContent,jdbcType=VARCHAR},
       paper_status = #{paperStatus,jdbcType=TINYINT},
       average_score = #{averageScore,jdbcType=INTEGER},
-      is_email_post = #{isEmailPost,jdbcType=BIT}
+      is_email_post = #{isEmailPost,jdbcType=BIT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where paper_id = #{paperId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectPaper" parameterType="Map" resultMap="BaseResultMap">
+    select *
+    from paper
+    ORDER by paper_id desc
+  </select>
+
+  <select id="selectPaperByUid" parameterType="Map" resultMap="BaseResultMap">
+    select *
+    from paper
+    where user_id = #{user_id,jdbcType=INTEGER}
+    ORDER by create_time desc
+  </select>
 </mapper>

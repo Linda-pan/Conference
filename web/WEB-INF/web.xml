@@ -34,9 +34,9 @@
     <listener>
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
- <!--     <listener>
-          <listener-class>com.cpvsn.mybatis.pagination.CleanupMybatisPaginationListener</listener-class>
-      </listener>-->
+     <listener>
+          <listener-class>com.elin4it.ssm.mybatis.pagination.CleanupMybatisPaginationListener</listener-class>
+      </listener>
     <!--  <listener>
           <listener-class>com.cpvsn.thread.SendPushTimerListener</listener-class>
       </listener>-->

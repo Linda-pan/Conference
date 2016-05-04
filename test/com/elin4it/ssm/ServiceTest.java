@@ -1,6 +1,7 @@
 package com.elin4it.ssm;
 
 import com.elin4it.ssm.pojo.User;
+import com.elin4it.ssm.service.ReviewerPaperService;
 import com.elin4it.ssm.service.UserService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,10 +19,19 @@ public class ServiceTest {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ReviewerPaperService reviewerPaperService;
+
     @Test
     public void testSelectByName(){
         User user =userService.selectByName("Linda");
         System.out.print(user);
     }
+    @Test
+    public void testSelectCount(){
+        int count =reviewerPaperService.getCount(3);
+        System.out.print(count);
+    }
+
 
 }

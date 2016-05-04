@@ -13,6 +13,10 @@ public class Conference {
 
     private Date endTime;
 
+    private Date creativeTime;
+
+    private Date updateTime;
+
     public Integer getConferenceId() {
         return conferenceId;
     }
@@ -51,5 +55,21 @@ public class Conference {
 
     public void setEndTime(Date endTime) {
         this.endTime = endTime;
+    }
+
+    public Date getCreativeTime() {
+        return creativeTime;
+    }
+
+    public void setCreativeTime(Date creativeTime) {
+        this.creativeTime = creativeTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

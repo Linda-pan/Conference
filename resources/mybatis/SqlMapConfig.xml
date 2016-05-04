@@ -8,7 +8,6 @@
         <setting name="logPrefix" value="database.pay-" />
         <setting name="mapUnderscoreToCamelCase" value="true" />
     </settings>
-
     <typeAliases>
         <typeAlias alias="User" type="com.elin4it.ssm.pojo.User" />
         <typeAlias alias="Conference" type="com.elin4it.ssm.pojo.Conference" />
@@ -21,6 +20,13 @@
         <typeAlias alias="PaperTheme" type="com.elin4it.ssm.pojo.PaperTheme"/>
         <typeAlias alias="AllPaperTheme" type="com.elin4it.ssm.pojo.AllPaperTheme"/>
     </typeAliases>
+
+    <plugins>
+        <plugin interceptor="com.elin4it.ssm.mybatis.pagination.PaginationInterceptor">
+            <property name="dialectClass"
+                      value="com.elin4it.ssm.mybatis.pagination.dialect.MySQLDialect"></property>
+        </plugin>
+    </plugins>
 
     <mappers>
         <mapper resource="mybatis/UserMapper.xml" />

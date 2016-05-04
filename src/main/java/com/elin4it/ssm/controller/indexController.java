@@ -3,7 +3,6 @@ package com.elin4it.ssm.controller;
 import com.elin4it.ssm.pojo.User;
 import com.elin4it.ssm.model.AdminRights;
 import com.elin4it.ssm.model.SessionUser;
-import com.elin4it.ssm.service.AppAdminService;
 import com.elin4it.ssm.service.MenuInfoService;
 import com.elin4it.ssm.service.UserService;
 import com.elin4it.ssm.utils.ConfigPropertiesUtil;
@@ -30,8 +29,7 @@ public class indexController extends BaseController {
     private UserService userService;
     @Autowired
     private MenuInfoService menuInfoService;
-    @Autowired
-    private AppAdminService appAdminService;
+
 
     @RequestMapping("")
     public String index() {

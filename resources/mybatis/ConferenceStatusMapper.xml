@@ -1,82 +1,94 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.elin4it.ssm.mapper.dao.ConferenceStatusMapperDao" >
-  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.ConferenceStatus" >
-    <id column="conference_id" property="conferenceId" jdbcType="INTEGER" />
-    <id column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
-    <result column="conference_status" property="conferenceStatus" jdbcType="TINYINT" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elin4it.ssm.mapper.dao.ConferenceStatusMapperDao">
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.ConferenceStatus">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="conference_id" jdbcType="INTEGER" property="conferenceId" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="admin_id" jdbcType="INTEGER" property="adminId" />
+    <result column="conference_status" jdbcType="TINYINT" property="conferenceStatus" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    conference_id, update_time, admin_id, conference_status
+  <sql id="Base_Column_List">
+    id, conference_id, update_time, admin_id, conference_status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.elin4it.ssm.pojo.ConferenceStatusKey" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from conference_status
-    where conference_id = #{conferenceId,jdbcType=INTEGER}
-      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="com.elin4it.ssm.pojo.ConferenceStatusKey" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from conference_status
-    where conference_id = #{conferenceId,jdbcType=INTEGER}
-      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.elin4it.ssm.pojo.ConferenceStatus" >
-    insert into conference_status (conference_id, update_time, admin_id, 
-      conference_status)
-    values (#{conferenceId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, #{adminId,jdbcType=INTEGER}, 
-      #{conferenceStatus,jdbcType=TINYINT})
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.ConferenceStatus">
+    insert into conference_status (id, conference_id, update_time, 
+      admin_id, conference_status)
+    values (#{id,jdbcType=INTEGER}, #{conferenceId,jdbcType=INTEGER}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{adminId,jdbcType=INTEGER}, #{conferenceStatus,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.ConferenceStatus" >
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.ConferenceStatus">
     insert into conference_status
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="conferenceId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="conferenceId != null">
         conference_id,
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time,
       </if>
-      <if test="adminId != null" >
+      <if test="adminId != null">
         admin_id,
       </if>
-      <if test="conferenceStatus != null" >
+      <if test="conferenceStatus != null">
         conference_status,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="conferenceId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="conferenceId != null">
         #{conferenceId,jdbcType=INTEGER},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="adminId != null" >
+      <if test="adminId != null">
         #{adminId,jdbcType=INTEGER},
       </if>
-      <if test="conferenceStatus != null" >
+      <if test="conferenceStatus != null">
         #{conferenceStatus,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.ConferenceStatus" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.ConferenceStatus">
     update conference_status
-    <set >
-      <if test="adminId != null" >
+    <set>
+      <if test="conferenceId != null">
+        conference_id = #{conferenceId,jdbcType=INTEGER},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="adminId != null">
         admin_id = #{adminId,jdbcType=INTEGER},
       </if>
-      <if test="conferenceStatus != null" >
+      <if test="conferenceStatus != null">
         conference_status = #{conferenceStatus,jdbcType=TINYINT},
       </if>
     </set>
-    where conference_id = #{conferenceId,jdbcType=INTEGER}
-      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.ConferenceStatus" >
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.ConferenceStatus">
     update conference_status
-    set admin_id = #{adminId,jdbcType=INTEGER},
+    set conference_id = #{conferenceId,jdbcType=INTEGER},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      admin_id = #{adminId,jdbcType=INTEGER},
       conference_status = #{conferenceStatus,jdbcType=TINYINT}
-    where conference_id = #{conferenceId,jdbcType=INTEGER}
-      and update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
   </update>
+
 </mapper>

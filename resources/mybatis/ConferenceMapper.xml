@@ -1,93 +1,118 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.elin4it.ssm.mapper.dao.ConferenceMapperDao" >
-  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.Conference" >
-    <id column="conference_id" property="conferenceId" jdbcType="INTEGER" />
-    <result column="conference_name" property="conferenceName" jdbcType="VARCHAR" />
-    <result column="conference_intro" property="conferenceIntro" jdbcType="VARCHAR" />
-    <result column="start_time" property="startTime" jdbcType="TIMESTAMP" />
-    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.elin4it.ssm.mapper.dao.ConferenceMapperDao">
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.Conference">
+    <id column="conference_id" jdbcType="INTEGER" property="conferenceId" />
+    <result column="conference_name" jdbcType="VARCHAR" property="conferenceName" />
+    <result column="conference_intro" jdbcType="VARCHAR" property="conferenceIntro" />
+    <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
+    <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="creative_time" jdbcType="TIMESTAMP" property="creativeTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    conference_id, conference_name, conference_intro, start_time, end_time
+  <sql id="Base_Column_List">
+    conference_id, conference_name, conference_intro, start_time, end_time, creative_time, 
+    update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from conference
     where conference_id = #{conferenceId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from conference
     where conference_id = #{conferenceId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.elin4it.ssm.pojo.Conference" >
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.Conference">
     insert into conference (conference_id, conference_name, conference_intro, 
-      start_time, end_time)
+      start_time, end_time, creative_time, 
+      update_time)
     values (#{conferenceId,jdbcType=INTEGER}, #{conferenceName,jdbcType=VARCHAR}, #{conferenceIntro,jdbcType=VARCHAR}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP})
+      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{creativeTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.Conference" >
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.Conference">
     insert into conference
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="conferenceId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="conferenceId != null">
         conference_id,
       </if>
-      <if test="conferenceName != null" >
+      <if test="conferenceName != null">
         conference_name,
       </if>
-      <if test="conferenceIntro != null" >
+      <if test="conferenceIntro != null">
         conference_intro,
       </if>
-      <if test="startTime != null" >
+      <if test="startTime != null">
         start_time,
       </if>
-      <if test="endTime != null" >
+      <if test="endTime != null">
         end_time,
       </if>
+      <if test="creativeTime != null">
+        creative_time,
+      </if>
+      <if test="updateTime != null">
+        update_time,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="conferenceId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="conferenceId != null">
         #{conferenceId,jdbcType=INTEGER},
       </if>
-      <if test="conferenceName != null" >
+      <if test="conferenceName != null">
         #{conferenceName,jdbcType=VARCHAR},
       </if>
-      <if test="conferenceIntro != null" >
+      <if test="conferenceIntro != null">
         #{conferenceIntro,jdbcType=VARCHAR},
       </if>
-      <if test="startTime != null" >
+      <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endTime != null" >
+      <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creativeTime != null">
+        #{creativeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.Conference" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.Conference">
     update conference
-    <set >
-      <if test="conferenceName != null" >
+    <set>
+      <if test="conferenceName != null">
         conference_name = #{conferenceName,jdbcType=VARCHAR},
       </if>
-      <if test="conferenceIntro != null" >
+      <if test="conferenceIntro != null">
         conference_intro = #{conferenceIntro,jdbcType=VARCHAR},
       </if>
-      <if test="startTime != null" >
+      <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="endTime != null" >
+      <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creativeTime != null">
+        creative_time = #{creativeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null">
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
     </set>
     where conference_id = #{conferenceId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.Conference" >
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.Conference">
     update conference
     set conference_name = #{conferenceName,jdbcType=VARCHAR},
       conference_intro = #{conferenceIntro,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP}
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      creative_time = #{creativeTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
     where conference_id = #{conferenceId,jdbcType=INTEGER}
   </update>
 </mapper>

@@ -64,12 +64,12 @@ public class UserController extends BaseController {
             if (result == 1) {
                 model.put("message", "保存成功");
                 model.put("status", true);
-                return "user/userdetail";
+                return  "redirect:/user/userdetail";
             }
         }
         model.put("message", "保存失败");
         model.put("status", false);
 
-        return "user/userdetail";
+        return "redirect:/user/userdetail";
     }
 }

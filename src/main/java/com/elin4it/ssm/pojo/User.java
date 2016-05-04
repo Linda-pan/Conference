@@ -1,5 +1,7 @@
 package com.elin4it.ssm.pojo;
 
+import java.util.Date;
+
 public class User {
     private Integer userId;
 
@@ -26,6 +28,10 @@ public class User {
     private String paymentVoucher;
 
     private Boolean isPaymentConfirmed;
+
+    private Date createTime;
+
+    private Date updateTime;
 
     public Integer getUserId() {
         return userId;
@@ -129,5 +135,42 @@ public class User {
 
     public void setIsPaymentConfirmed(Boolean isPaymentConfirmed) {
         this.isPaymentConfirmed = isPaymentConfirmed;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", adminId=" + adminId +
+                ", trueName='" + trueName + '\'' +
+                ", isShowName=" + isShowName +
+                ", telephone='" + telephone + '\'' +
+                ", email='" + email + '\'' +
+                ", isEmailConfirmed=" + isEmailConfirmed +
+                ", username='" + username + '\'' +
+                ", roleId=" + roleId +
+                ", title='" + title + '\'' +
+                ", password='" + password + '\'' +
+                ", paymentVoucher='" + paymentVoucher + '\'' +
+                ", isPaymentConfirmed=" + isPaymentConfirmed +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

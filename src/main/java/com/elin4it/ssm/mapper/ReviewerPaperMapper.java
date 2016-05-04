@@ -1,11 +1,17 @@
 package com.elin4it.ssm.mapper;
 
-import com.elin4it.ssm.pojo.ReviewerPaperKey;
+import com.elin4it.ssm.pojo.ReviewerPaper;
 
 public interface ReviewerPaperMapper {
-    int deleteByPrimaryKey(ReviewerPaperKey key);
+    int deleteByPrimaryKey(Integer id);
 
-    int insert(ReviewerPaperKey record);
+    int insert(ReviewerPaper record);
 
-    int insertSelective(ReviewerPaperKey record);
+    int insertSelective(ReviewerPaper record);
+
+    ReviewerPaper selectByPrimaryKey(Integer id);
+
+    int updateByPrimaryKeySelective(ReviewerPaper record);
+
+    int updateByPrimaryKey(ReviewerPaper record);
 }
