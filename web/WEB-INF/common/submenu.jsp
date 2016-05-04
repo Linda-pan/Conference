@@ -5,11 +5,11 @@
 	<c:if test="${not empty subMenuList }">
 	<c:forEach items="${subMenuList }" var="subMenu" >
 	<c:choose>
-	<c:when test="${subMenu.menu_url==currentMenu }">
-	<li class="span2 report-nav-item active"><a href="<c:url value="${subMenu.menu_url }" />">${subMenu.name }</a></li>
+	<c:when test="${subMenu.url==currentMenu }">
+	<li class="span2 report-nav-item active"><a href="<c:url value="${subMenu.url }" />">${subMenu.name }</a></li>
 	</c:when>
 	<c:otherwise>
-	<li class="span2 report-nav-item"><a href="<c:url value="${subMenu.menu_url }" />">${subMenu.name }</a></li>
+	<li class="span2 report-nav-item"><a href="<c:url value="${subMenu.url }" />">${subMenu.name }</a></li>
 	</c:otherwise>
 	</c:choose>
 	

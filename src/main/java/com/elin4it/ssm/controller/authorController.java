@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/user/author")
-public class authorController {
+public class AuthorController {
     @Autowired
     private UserService userService;
 
@@ -29,7 +29,7 @@ public class authorController {
     @RequestMapping("list")
     public
     @ResponseBody
-    String getSpeechTrailerList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize) {
+    String getAuthorList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize) {
         PageBounds<JSONObject> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("user_id", "desc"));
         userService.findAPage(pageBounds);
 

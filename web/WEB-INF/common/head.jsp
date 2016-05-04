@@ -130,11 +130,11 @@
 				  <c:if test="${not empty firstMenuList }" >
 				  <c:forEach items="${firstMenuList}" var="menu">
 				  <c:choose>
-				  <c:when test="${currentMenu==menu.menu_url }">
-				  <li class="active"><a href="<c:url value="${menu.menu_url}" />">${menu.name}</a></li>
+				  <c:when test="${currentMenu==menu.url }">
+				  <li class="active"><a href="<c:url value="${menu.url}" />">${menu.name}</a></li>
 				  </c:when>
 				  <c:otherwise>
-				  <li><a href="<c:url value="${menu.menu_url}" />">${menu.name}</a></li>
+				  <li><a href="<c:url value="${menu.url}" />">${menu.name}</a></li>
 				  </c:otherwise>
 				  
 				  </c:choose>

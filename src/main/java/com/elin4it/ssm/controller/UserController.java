@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,13 +29,17 @@ public class UserController extends BaseController {
     @Autowired
     private UserService userService;
 
+
     @RequestMapping("detail")
-    public String showDetail(HttpServletRequest request, ModelMap model) {
+    public String showDetail(HttpServletRequest request, @RequestParam(required = false) Integer  type, ModelMap model) {
         JSONObject statusMap = new JSONObject();
         statusMap.put("0", "是");
         statusMap.put("1", "否");
         model.put("StatusMap", statusMap);
-        model.put("userId", WebUtil.getCurrentUser().getUserId());
+        if(type ==null) {
+            type=WebUtil.getCurrentUser().getUserId();
+        }
+        model.put("userId", type);
         return "user/userdetail";
     }
 
@@ -64,7 +69,7 @@ public class UserController extends BaseController {
             if (result == 1) {
                 model.put("message", "保存成功");
                 model.put("status", true);
-                return  "redirect:/user/userdetail";
+                return "redirect:/user/userdetail";
             }
         }
         model.put("message", "保存失败");

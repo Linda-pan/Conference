@@ -1,4 +1,5 @@
-<%--
+<%@ page import="com.elin4it.ssm.service.PaperService" %>
+<%@ page import="com.elin4it.ssm.constant.PaperStatusConst" %><%--
   Created by IntelliJ IDEA.
   User: jpan
   Date: 2016/5/3
@@ -48,18 +49,20 @@
     function paperStatusDetail(value, row, index) {
         var content = [];
 
-        if(value==1){
-            content.push("1 正在审核中");
-        }else if(value==0){
-            content.push("0 正在分配专家");
+        if(value==0){
+            content.push("<%=PaperStatusConst.PAPERS0%>");
+        }else if(value==1){
+            content.push("<%=PaperStatusConst.PAPERS1%>");
         }else if(value==2){
-            content.push("2 等待上传缴费图片");
+            content.push("<%=PaperStatusConst.PAPERS2%>");
         }else if(value==3){
-            content.push("3 正在验证缴费图片");
+            content.push("<%=PaperStatusConst.PAPERS3%>");
         } else if(value==4){
-            content.push("4 缴费验证成功");
+            content.push("<%=PaperStatusConst.PAPERS4%>");
         } else if(value==5){
-            content.push("5 未通过");
+            content.push("<%=PaperStatusConst.PAPERS5%>");
+        }else if(value==6){
+            content.push("<%=PaperStatusConst.PAPERS6%>");
         }
         var a = content.join('');
         return a;

@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/user/alluser")
-public class allUserController {
+public class AllUserController {
 @Autowired
 private UserService userService;
 

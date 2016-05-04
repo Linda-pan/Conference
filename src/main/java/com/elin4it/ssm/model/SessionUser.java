@@ -7,9 +7,20 @@ public class SessionUser {
     private int userId;
     private String username;
 
-    public SessionUser(int userId,String username){
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
+
+    private int roleId;
+
+    public SessionUser(int userId,String username,int roleId){
         this.userId=userId;
         this.username=username;
+        this.roleId =roleId;
     }
 
     public int getUserId() {

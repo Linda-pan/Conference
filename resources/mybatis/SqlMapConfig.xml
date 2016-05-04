@@ -19,6 +19,7 @@
         <typeAlias alias="CommentQuestionnaire" type="com.elin4it.ssm.pojo.CommentQuestionnaire"/>
         <typeAlias alias="PaperTheme" type="com.elin4it.ssm.pojo.PaperTheme"/>
         <typeAlias alias="AllPaperTheme" type="com.elin4it.ssm.pojo.AllPaperTheme"/>
+        <typeAlias alias="MenuInfo" type="com.elin4it.ssm.pojo.MenuInfo"/>
     </typeAliases>
 
     <plugins>
@@ -40,6 +41,7 @@
         <mapper resource="mybatis/ReviewerPaperMapper.xml" />
         <mapper resource="mybatis/PaperThemeMapper.xml" />
         <mapper resource="mybatis/AllPaperThemeMapper.xml" />
+        <mapper resource="mybatis/MenuInfoMapper.xml" />
     </mappers>
 
 </configuration>

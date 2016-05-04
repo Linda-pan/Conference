@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.elin4it.ssm.constant.UserRoleConst" %><%--
   Created by IntelliJ IDEA.
   User: jpan
   Date: 2016/5/3
@@ -26,8 +26,8 @@
                 <th data-field="title" data-align="">头衔</th>
                 <th data-field="telephone" data-align="">电话</th>
                 <th data-field="email" data-align="">邮箱</th>
-                <th data-field="roleId" data-align="" data-formatter="roleDetail">角色</th>
                 <th data-field="paperNum" data-align="" >所有论文(点击跳转作者论文页面)</th>
+                <th data-field="" data-align="" >缴费图片（点击查看）</th>
             </tr>
             </thead>
         </table>
@@ -44,17 +44,6 @@
             pageNo: params.pageNumber
         };
     }
-    function roleDetail(value, row, index) {
-        var content = [];
-        if(value==0){
-            content.push("作者");
-        }else if(value==1){
-            content.push("管理员");
-        }else{
-            content.push("审核员");
-        }
-        var a = content.join('');
-        return a;
-    }
+
 </script>
 <%@ include file="/WEB-INF/common/footer.jsp" %>

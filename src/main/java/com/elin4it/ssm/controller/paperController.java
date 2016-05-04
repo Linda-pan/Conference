@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/paper")
-public class paperController {
+public class PaperController {
     @Autowired
     private PaperService paperService;
 
@@ -30,7 +30,7 @@ public class paperController {
     @RequestMapping("list")
     public
     @ResponseBody
-    String getSpeechTrailerList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize) {
+    String getList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize) {
         PageBounds<Paper> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("paper_id", "desc"));
         paperService.findPage(pageBounds);
 
@@ -38,4 +38,17 @@ public class paperController {
 
         return grid.toJSONString();
     }
+
+    @RequestMapping("onepaper")
+    public
+    @ResponseBody
+    String getOneList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize) {
+        PageBounds<Paper> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("paper_id", "desc"));
+        paperService.findPage(pageBounds);
+
+        Grid grid = new Grid(pageBounds.getPageList().getTotalCount(), pageBounds.getPageList().getResult());
+
+        return grid.toJSONString();
+    }
+
 }

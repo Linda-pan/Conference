@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.elin4it.ssm.constant.UserRoleConst" %><%--
   Created by IntelliJ IDEA.
   User: jpan
   Date: 2016/5/3
@@ -58,11 +58,11 @@
     function roleDetail(value, row, index) {
         var content = [];
         if(value==0){
-            content.push("作者");
+            content.push("<%=UserRoleConst.AUTHOR0%>");
         }else if(value==1){
-            content.push("管理员");
+            content.push("<%=UserRoleConst.ADMIN1%>");
         }else{
-            content.push("审核员");
+            content.push("<%=UserRoleConst.REVIEWER2%>");
         }
         var a = content.join('');
         return a;

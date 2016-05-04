@@ -64,12 +64,12 @@
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
         </table>-->
-        <table tableName="conference_status" domainObjectName="ConferenceStatus" enableInsert="true"
+       <!-- <table tableName="conference_status" domainObjectName="ConferenceStatus" enableInsert="true"
                enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
-        </table>
+        </table>-->
        <!-- <table tableName="notice" domainObjectName="Notice" enableInsert="true"
                enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
@@ -106,6 +106,12 @@
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
         </table>-->
+         <table tableName="menu_info" domainObjectName="MenuInfo" enableInsert="true"
+              enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
+              enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+              enableSelectByExample="false" selectByExampleQueryId="false">
+           <property name="useActualColumnNames" value="false"/>
+       </table>
     </context>
 
 </generatorConfiguration>

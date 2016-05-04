@@ -14,10 +14,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
 <%@ include file="/WEB-INF/common/submenu.jsp" %>
-<%
-    SessionUser user = WebUtil.getCurrentUser(request);
-    int userId = user.getUserId();
-%>
+
 <div class="container-fluid" id="user_detail_id">
     <div class="row-fluid">
         <div class="tit">
@@ -26,7 +23,7 @@
         <div class="mymodal-form clearfix">
             <form id="frm_id" method="post" action="">
 
-                <input type="hidden" id="user_id" name="userId" value="<%=userId%>"/>
+                <input type="hidden" id="user_id" name="userId" value="${userId}"/>
 
                 <ul>
                     <li>
@@ -77,6 +74,7 @@
                         <input type="submit"
                                value="修改"
                                class="btn btn-primary" onclick="changeDetail()">
+
                     </li>
                 </ul>
             </form>
@@ -174,9 +172,9 @@
                             $('#email_id').val(user.email);
 
                             if (user.isShowName == true) {
-                                $('#is_show_name_id').val(0);
-                            } else {
                                 $('#is_show_name_id').val(1);
+                            } else {
+                                $('#is_show_name_id').val(0);
                             }
                             $('#trueName_id').val(user.trueName);
                         }
@@ -215,13 +213,12 @@
                             $('#email1_id').val(user.email);
 
                             if (user.isShowName == 'true') {
-                                $('#is_show_name1_id').val(0);
-                            } else {
                                 $('#is_show_name1_id').val(1);
+                            } else {
+                                $('#is_show_name1_id').val(0);
                             }
                             $('#trueName1_id').val(user.trueName);
                         }
-
                     } else {
                         $.scojs_message(result.message, $.scojs_message.TYPE_ERROR);
                     }
