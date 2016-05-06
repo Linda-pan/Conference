@@ -3,6 +3,7 @@ package com.elin4it.ssm.mapper.dao;
 import com.elin4it.ssm.mapper.PaperMapper;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.pojo.Paper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,4 +16,10 @@ public interface PaperMapperDao extends PaperMapper {
     List<Paper> selectPaper(PageBounds<Paper> pageBounds);
 
     List<Paper> selectPaperByUid(int user_id);
+
+    List<Paper> selectPaperByUid(PageBounds<Paper> pageBounds, int user_id);
+
+    List<Paper> selectMyPaper(PageBounds<Paper> pageBounds, @Param("userId") int uid);
+
+    List<Paper> selectMyPaper(@Param("userId") int uid);
 }

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.elin4it.ssm.mybatis.pagination.Order;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.service.UserService;
+import com.elin4it.ssm.utils.ConfigPropertiesUtil;
 import com.elin4it.ssm.utils.Grid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,7 @@ public class AuthorController {
 
     @RequestMapping("")
     public String index(ModelMap model) {
+        model.put("authorPaperUrl", ConfigPropertiesUtil.getProperties("author_paper_list_url"));
         return "/user/author";
     }
 

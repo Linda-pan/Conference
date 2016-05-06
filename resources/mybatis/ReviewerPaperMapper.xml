@@ -110,4 +110,9 @@
     where user_id= #{userId}
   </select>
 
+  <select id="selectReviewerByPaperId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from reviewer_paper
+    where paper_id= #{paperId}
+  </select>
 </mapper>

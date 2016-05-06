@@ -1,11 +1,15 @@
 package com.elin4it.ssm.service;
 
 import com.alibaba.fastjson.JSONObject;
+import com.elin4it.ssm.constant.PaperStatusConst;
+import com.elin4it.ssm.mapper.ReviewerPaperMapper;
 import com.elin4it.ssm.mapper.dao.PaperMapperDao;
+import com.elin4it.ssm.mapper.dao.ReviewerPaperMapperDao;
 import com.elin4it.ssm.mapper.dao.UserMapperDao;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.mybatis.pagination.PageList;
 import com.elin4it.ssm.pojo.Paper;
+import com.elin4it.ssm.pojo.ReviewerPaper;
 import com.elin4it.ssm.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +35,9 @@ public class UserService {
 
     @Autowired
     private ReviewerPaperService reviewerPaperService;
+
+    @Autowired
+    private ReviewerPaperMapperDao reviewerPaperMapperDao;
 
     public User login(String userName, String password) {
 
@@ -62,7 +69,16 @@ public class UserService {
         return userList;
     }
 
-    public List<JSONObject> findDCPage(PageBounds<JSONObject> pageBounds) {
+    public List<User> findPageByRoleId(PageBounds<User> pageBounds, int roleId) {
+        List<User> userList = userMapperDao.selectUserByRoleId(pageBounds, roleId);
+
+        PageList<User> pageList = new PageList<>(pageBounds.getPageList().getPageNo(), pageBounds.getPageList().getPageSize(), pageBounds.getPageList().getTotalCount(), userList);
+        pageBounds.setPageList(pageList);
+
+        return userList;
+    }
+
+    public List<JSONObject> findReviewerPage(PageBounds<JSONObject> pageBounds) {
         PageBounds<User> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
         List<User> userList = userMapperDao.selectUser(param);
         List<JSONObject> userModelList = new ArrayList<>();
@@ -90,20 +106,33 @@ public class UserService {
     public List<JSONObject> findAPage(PageBounds<JSONObject> pageBounds) {
         PageBounds<User> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
         List<User> userList = userMapperDao.selectUser(param);
+
         List<JSONObject> userModelList = new ArrayList<>();
         for (User user : userList) {
             if (user.getRoleId() == 0) {
+                List<Paper> papers = paperService.findMyPage(user.getUserId());
+                int count = 0;
+                for (Paper paper : papers) {
+                    if (paper.getPaperStatus() == 2 || paper.getPaperStatus() == 3 || paper.getPaperStatus() == 4) {
+                        count++;
+                    }
+                }
+
+                if (count == 0) {
+                    continue;
+                }
                 JSONObject userModel = new JSONObject();
                 List<Paper> paperList = paperMapperDao.selectPaperByUid(user.getUserId());
                 userModel.put("paperList", paperList);
                 userModel.put("paperNum", paperService.findPaperNumByUid(user.getUserId()));
-
+                userModel.put("passpaperNum", count);
                 userModel.put("userId", user.getUserId());
                 userModel.put("trueName", user.getTrueName());
                 userModel.put("telephone", user.getTelephone());
                 userModel.put("email", user.getEmail());
                 userModel.put("username", user.getUsername());
                 userModel.put("title", user.getTitle());
+                userModel.put("isPaymentConfirmed", user.getIsPaymentConfirmed());
 
                 userModelList.add(userModel);
             }
@@ -114,4 +143,34 @@ public class UserService {
 
         return userModelList;
     }
+
+    public List<JSONObject> findPageByPaperId(PageBounds<JSONObject> pageBounds, int paperId) {
+        PageBounds<User> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
+
+        List<JSONObject> userModelList = new ArrayList<>();
+        List<ReviewerPaper> reviewerPapers = reviewerPaperMapperDao.selectReviewerByPaperId(param , paperId);
+
+        for (ReviewerPaper reviewerPaper : reviewerPapers) {
+            User user =userMapperDao.selectByPrimaryKey(reviewerPaper.getUserId());
+
+            JSONObject userModel = new JSONObject();
+            userModel.put("reviewPaperNum", reviewerPaperService.getCount(user.getUserId()));
+            userModel.put("userId", user.getUserId());
+            userModel.put("trueName", user.getTrueName());
+            userModel.put("telephone", user.getTelephone());
+            userModel.put("email", user.getEmail());
+            userModel.put("username", user.getUsername());
+            userModel.put("title", user.getTitle());
+            userModel.put("isPaymentConfirmed", user.getIsPaymentConfirmed());
+            userModel.put("isEmailConfirmed", user.getIsEmailConfirmed());
+            userModel.put("isShowName", user.getIsShowName());
+
+            userModelList.add(userModel);
+    }
+
+        PageList<JSONObject> pageList = new PageList<>(param.getPageList().getPageNo(), param.getPageList().getPageSize(), param.getPageList().getTotalCount(), userModelList);
+        pageBounds.setPageList(pageList);
+
+        return userModelList;
+}
 }

@@ -1,5 +1,7 @@
 package com.elin4it.ssm.controller;
 
+import com.elin4it.ssm.model.SessionUserMenuInfo;
+import com.elin4it.ssm.pojo.MenuInfo;
 import com.elin4it.ssm.pojo.User;
 import com.elin4it.ssm.model.AdminRights;
 import com.elin4it.ssm.model.SessionUser;
@@ -18,13 +20,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by jpan on 2016/4/22.
  */
 @Controller
 @RequestMapping("")
-public class indexController extends BaseController {
+public class IndexController extends BaseController {
     @Autowired
     private UserService userService;
     @Autowired
@@ -43,9 +46,10 @@ public class indexController extends BaseController {
     public String homePage(ModelMap model, HttpServletResponse response) {
         SessionUser sessionUser = WebUtil.getCurrentUser();
 
-       // List<String> firstMenuList = null;
-       // WebUtil.setSessionUserMenuInfo(new SessionUserMenuInfo());
-      //  model.put("firstMenuList", firstMenuList);
+        List<MenuInfo> firstMenuList=menuInfoService.getAllFirstMenuInfo(sessionUser.getRoleId());
+
+        WebUtil.setSessionUserMenuInfo(new SessionUserMenuInfo(firstMenuList, null));
+        model.put("firstMenuList", firstMenuList);
 
         Cookie cookie = new Cookie("user", String.valueOf(sessionUser.getUserId()) + ":" + sessionUser.getUsername());
         response.addCookie(cookie);
@@ -58,7 +62,7 @@ public class indexController extends BaseController {
         User user = userService.login(userName, password);
         if (user != null) {
 
-            SessionUser sessionUser = new SessionUser(user.getUserId(), user.getUsername());
+            SessionUser sessionUser = new SessionUser(user.getUserId(), user.getUsername(),user.getRoleId());
             WebUtil.setCurrentUser(sessionUser);
 
         } else {
@@ -83,7 +87,7 @@ public class indexController extends BaseController {
             adminRights.setUsername(username);
 
             WebUtil.setAppAdminRights(adminRights);
-            WebUtil.setCurrentUser(new SessionUser(user.getUserId(), user.getUsername()));
+            WebUtil.setCurrentUser(new SessionUser(user.getUserId(), user.getUsername(),user.getRoleId()));
 
         }else{
             response.setHeader("Access-Control-Allow-Origin", "*");

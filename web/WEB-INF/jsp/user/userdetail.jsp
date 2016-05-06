@@ -71,7 +71,7 @@
                 </ul>
                 <ul>
                     <li style="margin-top: 10px;"><label style="width: 40%;"></label>
-                        <input type="submit"
+                        <input type="button"
                                value="修改"
                                class="btn btn-primary" onclick="changeDetail()">
 
@@ -117,7 +117,7 @@
                 <li>
                     <label style="width:150px;">是否实名：</label>
                     <select class="form-control-horizontal" style="width:300px;" id="is_show_name1_id"
-                            name="is_show_id">
+                            name="is_show_id" readonly>
                         <c:forEach items="${StatusMap}" var="type">
                             <option value="${type.key}">${type.value}</option>
                         </c:forEach>
@@ -230,6 +230,8 @@
         });
 
         showModal("change_detail_id", "change_detail_mask");
+
+        return false;
     }
 
 </script>

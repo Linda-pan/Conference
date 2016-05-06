@@ -20,6 +20,7 @@
         <typeAlias alias="PaperTheme" type="com.elin4it.ssm.pojo.PaperTheme"/>
         <typeAlias alias="AllPaperTheme" type="com.elin4it.ssm.pojo.AllPaperTheme"/>
         <typeAlias alias="MenuInfo" type="com.elin4it.ssm.pojo.MenuInfo"/>
+        <typeAlias  alias="ReviewerPaper" type="com.elin4it.ssm.pojo.ReviewerPaper"/>
     </typeAliases>
 
     <plugins>

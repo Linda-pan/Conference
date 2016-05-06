@@ -11,15 +11,18 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="tit">
-            <h2>所有论文列表</h2>
+            <h2>作者论文列表</h2>
         </div>
-        <table id="tb" data-url="${ctx}/paper/list" data-toggle="table"
+        <input type="hidden" id="user_id" name="userId" value="${userId}"/>
+
+        <table id="tb" data-url="${ctx}/paper/mypaper" data-toggle="table"
                data-toolbar="#custem-toolbar" data-show-refresh="true"
                data-side-pagination="server" data-pagination="true" data-page-size="50" data-page-list="[50, 200]"
                data-query-params="queryParams">
+
             <thead>
             <tr>
-                <th data-field="paperId" data-align="">ID(点击查看分配的审稿人员)</th>
+                <th data-field="paperId" data-align="" data-formatter="paperReviewerList">ID(点击查看分配的审稿人员)</th>
                 <th data-field="paperName" data-align="" >论文名</th>
                 <th data-field="paperContent" data-align="">论文内容</th>
                 <th data-field="" data-align="">论文主题</th>
@@ -40,7 +43,8 @@
     function queryParams(params) {
         return {
             pageSize: params.pageSize,
-            pageNo: params.pageNumber
+            pageNo: params.pageNumber,
+            userId:$('#user_id').val()
         };
     }
 
@@ -62,6 +66,17 @@
         }else if(value==6){
             content.push("<%=PaperStatusConst.PAPERS6%>");
         }
+        var a = content.join('');
+        return a;
+    }
+
+    function paperReviewerList(value, row, index) {
+        var content = [];
+        content.push('<a href="${paperReviewerUrl}' + row.paperId + '"');
+        content.push(' target="_blank" ');
+        content.push('>');
+        content.push(value);
+        content.push('</a>');
         var a = content.join('');
         return a;
     }

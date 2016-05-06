@@ -26,8 +26,10 @@
                 <th data-field="title" data-align="">头衔</th>
                 <th data-field="telephone" data-align="">电话</th>
                 <th data-field="email" data-align="">邮箱</th>
-                <th data-field="paperNum" data-align="" >所有论文(点击跳转作者论文页面)</th>
-                <th data-field="" data-align="" >缴费图片（点击查看）</th>
+                <th data-field="paperNum" data-align="" data-formatter="authorPaperList">所有论文(点击跳转作者论文页面)</th>
+                <th data-field="passpaperNum" data-align="" >通过论文数目</th>
+                <th data-field="isPaymentConfirmed" data-align="" data-formatter="changeStatus">缴费图片是否已通过审核</th>
+                <th data-field="" data-align="" >缴费图片（点击审核缴费图片）</th>
             </tr>
             </thead>
         </table>
@@ -43,6 +45,32 @@
             pageSize: params.pageSize,
             pageNo: params.pageNumber
         };
+    }
+
+    function authorPaperList(value, row, index) {
+        var content = [];
+        content.push('<a href="${authorPaperUrl}' + row.userId + '"');
+        content.push(' target="_blank" ');
+        content.push('>');
+        content.push(value);
+        content.push('</a>');
+        var a = content.join('');
+        return a;
+    }
+
+    function changeStatus(value, row, index) {
+        var content = [];
+        content.push('<a href="javascript:;"  ');
+        content.push('onclick="change(' + row.userId + ');return false;" ');
+        content.push('>');
+        content.push(value);
+        content.push('</a>');
+        var a = content.join('');
+        return a;
+    }
+
+    function change(userId){
+        showModal("","");
     }
 
 </script>

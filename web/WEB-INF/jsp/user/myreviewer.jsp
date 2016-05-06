@@ -1,8 +1,8 @@
 <%@ page import="com.elin4it.ssm.constant.UserRoleConst" %><%--
   Created by IntelliJ IDEA.
   User: jpan
-  Date: 2016/5/3
-  Time: 16:50
+  Date: 2016/5/6
+  Time: 15:41
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -11,12 +11,15 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="tit">
-            <h2>审核员后台列表</h2>
+            <h2>审核人员列表</h2>
         </div>
-        <table id="tb" data-url="${ctx}/user/reviewer/list" data-toggle="table"
+        <input type="hidden" id="paper_id" name="paperId" value="${paperId}"/>
+
+        <table id="tb" data-url="${ctx}/user/reviewer/myreviewer" data-toggle="table"
                data-toolbar="#custem-toolbar" data-show-refresh="true"
                data-side-pagination="server" data-pagination="true" data-page-size="50" data-page-list="[50, 200]"
                data-query-params="queryParams">
+
             <thead>
             <tr>
                 <th data-field="userId" data-align="">ID</th>
@@ -27,7 +30,6 @@
                 <th data-field="email" data-align="">邮箱</th>
                 <th data-field="roleId" data-align="" data-formatter="roleDetail">角色</th>
                 <th data-field="reviewPaperNum" data-align="" data-formatter="paperReviewerList">审查论文数目(点击查看论文详细内容)</th>
-
             </tr>
             </thead>
         </table>
@@ -41,7 +43,8 @@
     function queryParams(params) {
         return {
             pageSize: params.pageSize,
-            pageNo: params.pageNumber
+            pageNo: params.pageNumber,
+            paperId:$('#paper_id').val()
         };
     }
 
@@ -70,4 +73,3 @@
     }
 </script>
 <%@ include file="/WEB-INF/common/footer.jsp" %>
-

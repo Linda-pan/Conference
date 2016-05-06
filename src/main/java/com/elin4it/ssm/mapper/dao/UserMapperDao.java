@@ -19,4 +19,9 @@ public interface UserMapperDao extends UserMapper {
     User selectByName(String username);
 
     List<User> selectUser(PageBounds<User> pageBounds);
+
+    List<User> selectUserByRoleId(PageBounds<User> pageBounds,@Param("roleId") int roleId);
+
+   List<User> findPageByPaperId(PageBounds<User> pageBounds,@Param("paperId") int paperId);
+
 }

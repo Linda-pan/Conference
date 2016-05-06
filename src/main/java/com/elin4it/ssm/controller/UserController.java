@@ -3,6 +3,7 @@ package com.elin4it.ssm.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.elin4it.ssm.constant.ErrorCodeConst;
+import com.elin4it.ssm.constant.UserRoleConst;
 import com.elin4it.ssm.exception.BusinessException;
 import com.elin4it.ssm.model.JsonDataModel;
 import com.elin4it.ssm.pojo.User;
@@ -36,10 +37,12 @@ public class UserController extends BaseController {
         statusMap.put("0", "是");
         statusMap.put("1", "否");
         model.put("StatusMap", statusMap);
+
         if(type ==null) {
             type=WebUtil.getCurrentUser().getUserId();
         }
         model.put("userId", type);
+
         return "user/userdetail";
     }
 

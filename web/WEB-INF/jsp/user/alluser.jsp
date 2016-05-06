@@ -13,10 +13,10 @@
         <div class="tit">
             <h2>所有用户后台列表</h2>
         </div>
-       <%-- <div class="search-form">
+        <div class="search-form">
             <form class="form-horizontal">
                 <div class="search-condition">
-                    <select class="form-control-horizontal" name="applyStatus" id="apply_status_id">
+                    <select class="form-control-horizontal" name="status" id="status_id">
                         <c:forEach items="${status}" var="type" >
                             <option value="${type.key}" >${type.value}</option>
                         </c:forEach>
@@ -24,7 +24,7 @@
                 </div>
                 <input class="btn btn-primary" type="button" id="searchBtn" value="查询" id="searchBtn">
             </form>
-        </div>--%>
+        </div>
         <table id="tb" data-url="${ctx}/user/alluser/list" data-toggle="table"
                data-toolbar="#custem-toolbar" data-show-refresh="true"
                data-side-pagination="server" data-pagination="true" data-page-size="50" data-page-list="[50, 200]"
@@ -51,7 +51,8 @@
     function queryParams(params) {
         return {
             pageSize: params.pageSize,
-            pageNo: params.pageNumber
+            pageNo: params.pageNumber,
+            status: $('#status_id').val()
         };
     }
 
@@ -67,5 +68,15 @@
         var a = content.join('');
         return a;
     }
+
+    $('#tb').bootstrapTable().on('load-error.bs.table', function (e, status) {
+        requestError(status);
+    });
+
+    $('#searchBtn').on('click', function () {
+        $('#tb').bootstrapTable('setPageNumber', 1);
+        $("#tb").bootstrapTable('refresh');
+        return false;
+    });
 </script>
 <%@ include file="/WEB-INF/common/footer.jsp" %>
