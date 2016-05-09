@@ -40,7 +40,7 @@ public class ServiceTest {
     }
     @Test
     public void testSelectCount(){
-        int count =reviewerPaperService.getCount(3);
+        int count =reviewerPaperService.getPaperCountByReviewerId(3);
         System.out.print(count);
     }
 

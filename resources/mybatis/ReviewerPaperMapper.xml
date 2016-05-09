@@ -104,8 +104,8 @@
     where id = #{id,jdbcType=INTEGER}
   </update>
 
-  <select id="selectPaperByRId" parameterType="java.lang.Integer" resultType="java.lang.Integer">
-    select paper_id
+  <select id="selectReviewerPaperByReviewerId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
     from reviewer_paper
     where user_id= #{userId}
   </select>

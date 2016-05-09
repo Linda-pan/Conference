@@ -17,9 +17,6 @@ public interface PaperMapperDao extends PaperMapper {
 
     List<Paper> selectPaperByUid(int user_id);
 
-    List<Paper> selectPaperByUid(PageBounds<Paper> pageBounds, int user_id);
+    List<Paper> selectPaperByUid(PageBounds<Paper> pageBounds, @Param("user_id") int uid);
 
-    List<Paper> selectMyPaper(PageBounds<Paper> pageBounds, @Param("userId") int uid);
-
-    List<Paper> selectMyPaper(@Param("userId") int uid);
 }

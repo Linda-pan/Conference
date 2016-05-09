@@ -46,6 +46,37 @@
     </div>
 </div>
 
+<div class="mymodal" style="display:none;" id="change_role_id">
+    <div class="tit">
+        <h2>修改权限</h2>
+        <a href="javascript:;" class="closes" id="change_role_close">关闭</a>
+    </div>
+    <div class="mymodal-form clearfix">
+        <ul>
+            <li>
+                <label style="width:40%;"></label>
+                <p id="upload_file_note">
+                    请使用 <b>小于2MB</b> <b>jpg/png/bmp</b> 格式图片
+                </p>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <label style="width:40%;"></label>
+                <input type="file" id="upload_file_id" accept="image/jpeg, image/png, image/bmp" onchange="img_upload_handle(this.files)">
+            </li>
+        </ul>
+        <ul>
+            <li style="margin-top: 10px;">
+                <label style="width:40%;"></label>
+                <input type="hidden" id="trigger_id">
+                <input type="hidden" id="roleId">
+                <input type="button" value="确定" id="upload_id" class="btn btn-primary" onclick="uploadSubmit()">
+            </li>
+        </ul>
+
+    </div>
+</div>
 
 <script type="text/javascript">
     function queryParams(params) {
@@ -58,6 +89,10 @@
 
     function roleDetail(value, row, index) {
         var content = [];
+        content.push('<a href="javascript:;"  ');
+        content.push('onclick="changeRole(' + row.userId + ');return false;" ');
+        content.push('>');
+
         if(value==0){
             content.push("<%=UserRoleConst.AUTHOR0%>");
         }else if(value==1){
@@ -65,6 +100,9 @@
         }else{
             content.push("<%=UserRoleConst.REVIEWER2%>");
         }
+
+        content.push('</a>');
+        var a = content.join('');
         var a = content.join('');
         return a;
     }
@@ -78,5 +116,10 @@
         $("#tb").bootstrapTable('refresh');
         return false;
     });
+
+    function changeRole(userId){
+        show("","");
+    }
+
 </script>
 <%@ include file="/WEB-INF/common/footer.jsp" %>

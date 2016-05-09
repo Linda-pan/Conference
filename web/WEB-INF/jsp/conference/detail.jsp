@@ -1,8 +1,8 @@
 <%--
   Created by IntelliJ IDEA.
   User: jpan
-  Date: 2016/5/4
-  Time: 13:42
+  Date: 2016/5/9
+  Time: 10:21
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
@@ -16,11 +16,11 @@
         </div>
         <div class="mymodal-form clearfix">
             <div style="width:100%;margin: 0 auto;">
-                <form class="form-horizontal" id="frm_id" action="${ctx }/conference/save" method="post">
+                <form class="form-horizontal" id="frm_id">
                     <div class="form-group">
                         <label style="width:15%;" class="col-sm-2 control-label">会议名称</label>
                         <div class="col-sm-6" style="width:85%;">
-                            <input type="text" style="width: 90%;" class="form-input" placeholder=""
+                            <input type="text" style="width: 90%;" class="form-input" placeholder="" id="conferenceId"
                                    name="conferenceName"
                                    validate="{required:true}">
                         </div>
@@ -55,30 +55,38 @@
 	                    	</span>
                         </div>
                     </div>
-
-                    <input class="btn btn-primary" type="button" value="保存">
                 </form>
 
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $.ajax({
+                url: '${ctx}/conference/getdetail',
+                type: 'post',
+                datatype: 'json',
+                success: function (result) {
+                    result = JSON.parse(result);
+                    if (result != null) {
+                        if (result.status == 'true') {
+                            var conference = result.data;
+                            if (conference != null) {
+                                $('#conferenceId').val(conference.conferenceName);
+                                $('#conferenceIntro_id').val(conference.conferenceIntro);
+                                $('#start_date_id').val(conference.startTime);
+                                $('#end_date_id').val(conference.endTime);
+                            }
+                        } else {
+                            $.scojs_message(result.message, $.scojs_message.TYPE_ERROR);
+                        }
+                    }
+                },
+                error: function (result) {
+                    requestError(result);
+                }
+            });
 
-
-    <script type="text/javascript">
-        $('.date').datetimepicker({
-            language: 'zh-CN',
-            pickTime: false
         });
-
-        function checkTime() {
-            var startTime = $('#start_date_id').val();
-            var endTime = $('#end_date_id').val();
-            if (startTime > endTime) {
-                $.scojs_message("开始时间不能大于结束时间");
-                return false;
-            }
-            return true;
-        }
     </script>
-
 <%@ include file="/WEB-INF/common/footer.jsp" %>

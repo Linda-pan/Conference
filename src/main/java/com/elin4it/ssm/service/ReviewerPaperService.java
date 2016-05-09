@@ -1,6 +1,7 @@
 package com.elin4it.ssm.service;
 
 import com.elin4it.ssm.mapper.dao.ReviewerPaperMapperDao;
+import com.elin4it.ssm.pojo.ReviewerPaper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +15,11 @@ public class ReviewerPaperService {
     @Autowired
     private ReviewerPaperMapperDao reviewerPaperMapperDao;
 
-    public int getCount(int id) {
-        List<Integer> paperIdList = reviewerPaperMapperDao.selectPaperByRId(id);
+    public int getPaperCountByReviewerId(int id) {
+        List<ReviewerPaper> reviewerPaperList = reviewerPaperMapperDao.selectReviewerPaperByReviewerId(id);
         int count = 0;
-        for (Integer integer : paperIdList) {
-            if (integer != null) {
+        for (ReviewerPaper reviewerPaper : reviewerPaperList) {
+            if (reviewerPaper != null) {
                 count++;
             }
         }

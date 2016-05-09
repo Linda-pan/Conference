@@ -146,13 +146,6 @@
     ORDER by paper_id desc
   </select>
 
-  <select id="selectMyPaper" parameterType="Map" resultMap="BaseResultMap">
-    select *
-    from paper
-    WHERE user_id = #{userId,jdbcType=INTEGER}
-    ORDER by paper_id desc
-  </select>
-
   <select id="selectPaperByUid" parameterType="Map" resultMap="BaseResultMap">
     select *
     from paper

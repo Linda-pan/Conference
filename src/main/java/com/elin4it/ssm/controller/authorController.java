@@ -33,7 +33,7 @@ public class AuthorController {
     @ResponseBody
     String getAuthorList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize) {
         PageBounds<JSONObject> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("user_id", "desc"));
-        userService.findAPage(pageBounds);
+        userService.findAuthorPage(pageBounds);
 
         Grid grid = new Grid(pageBounds.getPageList().getTotalCount(), pageBounds.getPageList().getResult());
 

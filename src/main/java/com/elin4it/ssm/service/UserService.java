@@ -60,7 +60,7 @@ public class UserService {
         return userMapperDao.updateByPrimaryKeySelective(user);
     }
 
-    public List<User> findPage(PageBounds<User> pageBounds) {
+    public List<User> findAllUserPage(PageBounds<User> pageBounds) {
         List<User> userList = userMapperDao.selectUser(pageBounds);
 
         PageList<User> pageList = new PageList<>(pageBounds.getPageList().getPageNo(), pageBounds.getPageList().getPageSize(), pageBounds.getPageList().getTotalCount(), userList);
@@ -69,7 +69,7 @@ public class UserService {
         return userList;
     }
 
-    public List<User> findPageByRoleId(PageBounds<User> pageBounds, int roleId) {
+    public List<User> findUserPageByRoleId(PageBounds<User> pageBounds, int roleId) {
         List<User> userList = userMapperDao.selectUserByRoleId(pageBounds, roleId);
 
         PageList<User> pageList = new PageList<>(pageBounds.getPageList().getPageNo(), pageBounds.getPageList().getPageSize(), pageBounds.getPageList().getTotalCount(), userList);
@@ -85,7 +85,7 @@ public class UserService {
         for (User user : userList) {
             if (user.getRoleId() == 2) {
                 JSONObject userModel = new JSONObject();
-                userModel.put("reviewPaperNum", reviewerPaperService.getCount(user.getUserId()));
+                userModel.put("reviewPaperNum", reviewerPaperService.getPaperCountByReviewerId(user.getUserId()));
                 userModel.put("userId", user.getUserId());
                 userModel.put("trueName", user.getTrueName());
                 userModel.put("telephone", user.getTelephone());
@@ -103,14 +103,14 @@ public class UserService {
         return userModelList;
     }
 
-    public List<JSONObject> findAPage(PageBounds<JSONObject> pageBounds) {
+    public List<JSONObject> findAuthorPage(PageBounds<JSONObject> pageBounds) {
         PageBounds<User> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
         List<User> userList = userMapperDao.selectUser(param);
 
         List<JSONObject> userModelList = new ArrayList<>();
         for (User user : userList) {
             if (user.getRoleId() == 0) {
-                List<Paper> papers = paperService.findMyPage(user.getUserId());
+                List<Paper> papers = paperService.findPaperByAuthorId(user.getUserId());
                 int count = 0;
                 for (Paper paper : papers) {
                     if (paper.getPaperStatus() == 2 || paper.getPaperStatus() == 3 || paper.getPaperStatus() == 4) {
@@ -124,7 +124,7 @@ public class UserService {
                 JSONObject userModel = new JSONObject();
                 List<Paper> paperList = paperMapperDao.selectPaperByUid(user.getUserId());
                 userModel.put("paperList", paperList);
-                userModel.put("paperNum", paperService.findPaperNumByUid(user.getUserId()));
+                userModel.put("paperNum", paperService.findPaperNumByAuthorId(user.getUserId()));
                 userModel.put("passpaperNum", count);
                 userModel.put("userId", user.getUserId());
                 userModel.put("trueName", user.getTrueName());
@@ -144,7 +144,7 @@ public class UserService {
         return userModelList;
     }
 
-    public List<JSONObject> findPageByPaperId(PageBounds<JSONObject> pageBounds, int paperId) {
+    public List<JSONObject> findReviewerPageByPaperId(PageBounds<JSONObject> pageBounds, int paperId) {
         PageBounds<User> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
 
         List<JSONObject> userModelList = new ArrayList<>();
@@ -154,7 +154,7 @@ public class UserService {
             User user =userMapperDao.selectByPrimaryKey(reviewerPaper.getUserId());
 
             JSONObject userModel = new JSONObject();
-            userModel.put("reviewPaperNum", reviewerPaperService.getCount(user.getUserId()));
+            userModel.put("reviewPaperNum", reviewerPaperService.getPaperCountByReviewerId(user.getUserId()));
             userModel.put("userId", user.getUserId());
             userModel.put("trueName", user.getTrueName());
             userModel.put("telephone", user.getTelephone());

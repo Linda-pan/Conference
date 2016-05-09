@@ -45,9 +45,9 @@ private UserService userService;
     String getSpeechTrailerList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize,@RequestParam(required = false)Integer status) {
         PageBounds<User> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("user_id", "desc"));
         if(status==3) {
-            userService.findPage(pageBounds);
+            userService.findAllUserPage(pageBounds);
         }else{
-            userService.findPageByRoleId(pageBounds,status);
+            userService.findUserPageByRoleId(pageBounds,status);
         }
 
         Grid grid = new Grid(pageBounds.getPageList().getTotalCount(), pageBounds.getPageList().getResult());
