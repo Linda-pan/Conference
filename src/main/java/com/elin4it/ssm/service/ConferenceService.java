@@ -5,7 +5,9 @@ import com.elin4it.ssm.exception.BusinessException;
 import com.elin4it.ssm.mapper.ConferenceMapper;
 import com.elin4it.ssm.mapper.dao.CommentMapperDao;
 import com.elin4it.ssm.mapper.dao.ConferenceMapperDao;
+import com.elin4it.ssm.mapper.dao.ConferenceStatusMapperDao;
 import com.elin4it.ssm.pojo.Conference;
+import com.elin4it.ssm.pojo.ConferenceStatus;
 import com.elin4it.ssm.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ import java.util.Date;
 public class ConferenceService {
     @Autowired
     private ConferenceMapperDao conferenceMapperDao;
+
+    @Autowired
+    private ConferenceStatusMapperDao conferenceStatusMapperDao;
 
     public void insertConference(Conference conference) {
         conference.setCreativeTime(new Date());
@@ -41,6 +46,9 @@ public class ConferenceService {
         conference.put("conferenceIntro",conference1.getConferenceIntro());
         conference.put("startTime",startTime);
         conference.put("endTime",endTime);
+        conference.put("conferenceId",conference1.getConferenceId());
+        ConferenceStatus conferenceStatus =conferenceStatusMapperDao.selectLastOne(conference1.getConferenceId());
+        conference.put("conferenceStatus",conferenceStatus.getConferenceStatus());
         return conference;
     }
 }

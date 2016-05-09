@@ -1,6 +1,7 @@
 package com.elin4it.ssm.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.elin4it.ssm.constant.ConferenceStatusConst;
 import com.elin4it.ssm.constant.ErrorCodeConst;
 import com.elin4it.ssm.exception.BusinessException;
 import com.elin4it.ssm.model.JsonDataModel;
@@ -26,6 +27,14 @@ public class ConferenceController {
 
     @RequestMapping("detail")
     public String index(ModelMap model) {
+        JSONObject statusMap = new JSONObject();
+        statusMap.put("0", ConferenceStatusConst.S0);
+        statusMap.put("1", ConferenceStatusConst.S1);
+        statusMap.put("2", ConferenceStatusConst.S2);
+        statusMap.put("3", ConferenceStatusConst.S3);
+        statusMap.put("4", ConferenceStatusConst.S4);
+        model.put("StatusMap", statusMap);
+
         return "/conference/detail";
     }
 
@@ -42,12 +51,12 @@ public class ConferenceController {
             model.put("message", e.getLocalizedMessage());
             model.put("status", false);
 
-            return "redirect:/conference";
+            return "forward:/conference/detail";
         }
         model.put("message", "保存成功");
         model.put("status", true);
 
-        return "redirect:/conference";
+        return "forward:/conference/detail";
 
     }
 

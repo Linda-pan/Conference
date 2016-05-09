@@ -32,16 +32,22 @@ public class UserController extends BaseController {
 
 
     @RequestMapping("detail")
-    public String showDetail(HttpServletRequest request, @RequestParam(required = false) Integer  type, ModelMap model) {
+    public String showDetail(HttpServletRequest request, @RequestParam(required = false) Integer type, ModelMap model) {
         JSONObject statusMap = new JSONObject();
         statusMap.put("0", "是");
         statusMap.put("1", "否");
         model.put("StatusMap", statusMap);
 
-        if(type ==null) {
-            type=WebUtil.getCurrentUser().getUserId();
+        int statu = 0;
+        if (type == null) {
+            type = WebUtil.getCurrentUser().getUserId();
+            statu = 1;
         }
         model.put("userId", type);
+        model.put("statu", statu);
+
+        User user =userService.selectById(type);
+        model.put("roleId",user.getRoleId());
 
         return "user/userdetail";
     }
@@ -65,19 +71,39 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("save")
-    public String add(User user, ModelMap model) {
+    public @ResponseBody String add(User user, ModelMap model) {
+        JsonDataModel jsonDataModel = new JsonDataModel();
 
-        if (user.getUserId() != null) {
-            int result = userService.update(user);
-            if (result == 1) {
-                model.put("message", "保存成功");
-                model.put("status", true);
-                return "redirect:/user/userdetail";
-            }
+        try {
+            userService.update(user);
+
+        } catch (BusinessException e) {
+            jsonDataModel.setErrorCode(ErrorCodeConst.BUS_EXCEPTION);
+            jsonDataModel.setStatus("false");
+            jsonDataModel.setMessage(e.getLocalizedMessage());
         }
-        model.put("message", "保存失败");
-        model.put("status", false);
 
-        return "redirect:/user/userdetail";
+        return jsonDataModel.toJSONString();
+    }
+
+    @RequestMapping("save/password")
+    public @ResponseBody String changepassword(@RequestParam int userId, String password, ModelMap model) {
+
+        JsonDataModel jsonDataModel = new JsonDataModel();
+        try {
+            User user = new User();
+            user.setUserId(userId);
+            user.setPassword(password);
+
+            userService.update(user);
+        } catch (BusinessException e) {
+            jsonDataModel.setErrorCode(ErrorCodeConst.BUS_EXCEPTION);
+            jsonDataModel.setStatus("false");
+            jsonDataModel.setMessage(e.getLocalizedMessage());
+        }
+        model.put("message", "保存成功");
+        model.put("status", true);
+
+        return jsonDataModel.toJSONString();
     }
 }

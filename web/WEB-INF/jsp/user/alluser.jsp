@@ -17,8 +17,8 @@
             <form class="form-horizontal">
                 <div class="search-condition">
                     <select class="form-control-horizontal" name="status" id="status_id">
-                        <c:forEach items="${status}" var="type" >
-                            <option value="${type.key}" >${type.value}</option>
+                        <c:forEach items="${status}" var="type">
+                            <option value="${type.key}">${type.value}</option>
                         </c:forEach>
                     </select>
                 </div>
@@ -32,12 +32,12 @@
             <thead>
             <tr>
                 <th data-field="userId" data-align="">ID</th>
-                <th data-field="username" data-align="" >用户名</th>
+                <th data-field="username" data-align="">用户名</th>
                 <th data-field="trueName" data-align="">真实姓名</th>
                 <th data-field="title" data-align="">头衔</th>
                 <th data-field="telephone" data-align="">电话</th>
                 <th data-field="email" data-align="">邮箱</th>
-                <th data-field="roleId" data-align="" data-formatter="roleDetail">角色</th>
+                <th data-field="roleId" data-align="" data-formatter="roleDetail">角色(点击修改权限)</th>
             </tr>
             </thead>
         </table>
@@ -54,29 +54,35 @@
     <div class="mymodal-form clearfix">
         <ul>
             <li>
-                <label style="width:40%;"></label>
-                <p id="upload_file_note">
-                    请使用 <b>小于2MB</b> <b>jpg/png/bmp</b> 格式图片
-                </p>
+                <label style="width:15%;"> 真实姓名：</label>
+                <input style="width:30%;" id="userName">
             </li>
         </ul>
         <ul>
             <li>
-                <label style="width:40%;"></label>
-                <input type="file" id="upload_file_id" accept="image/jpeg, image/png, image/bmp" onchange="img_upload_handle(this.files)">
+                <label style="width:15%;"> 权限：</label>
+                <select class="form-control-horizontal" name="status" id="role_id">
+                    <c:forEach items="${status}" var="type">
+                        <option value="${type.key}">${type.value}</option>
+                    </c:forEach>
+                </select>
             </li>
         </ul>
         <ul>
             <li style="margin-top: 10px;">
                 <label style="width:40%;"></label>
-                <input type="hidden" id="trigger_id">
-                <input type="hidden" id="roleId">
-                <input type="button" value="确定" id="upload_id" class="btn btn-primary" onclick="uploadSubmit()">
+                <input type="hidden" id="userId">
+                <input type="button" value="确定" id="upload_id" class="btn btn-primary" onclick="changeSubmit()">
             </li>
         </ul>
 
     </div>
 </div>
+
+<div id="change_role_mask" class="mask" style="display:none;">
+    <div class="mask-tips"></div>
+</div>
+
 
 <script type="text/javascript">
     function queryParams(params) {
@@ -93,17 +99,18 @@
         content.push('onclick="changeRole(' + row.userId + ');return false;" ');
         content.push('>');
 
-        if(value==0){
+        if (value == 0) {
             content.push("<%=UserRoleConst.AUTHOR0%>");
-        }else if(value==1){
+        } else if (value == 1) {
             content.push("<%=UserRoleConst.ADMIN1%>");
-        }else{
+        } else {
             content.push("<%=UserRoleConst.REVIEWER2%>");
         }
 
         content.push('</a>');
         var a = content.join('');
-        var a = content.join('');
+        $('#userName').val(row.trueName);
+        $('#userId').val(row.userId);
         return a;
     }
 
@@ -117,9 +124,40 @@
         return false;
     });
 
-    function changeRole(userId){
-        show("","");
+    $('#change_role_close').on('click', function () {
+        closeModal("change_role_id", "change_role_mask");
+    });
+
+    function changeRole() {
+        showModal("change_role_id", "change_role_mask");
     }
 
+    function changeSubmit() {
+       var roleId=$('#role_id').val();
+        var userId=$('#userId').val();
+        $.ajax({
+            url: '${ctx}/user/alluser/save',
+            type: 'post',
+            datatype: 'json',
+            data: {
+                userId: userId,
+                roleId: roleId
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result != null) {
+                    if (result.status == 'true') {
+                        closeModal("change_role_id", "change_role_mask");
+                    } else {
+                        $.scojs_message(result.message, $.scojs_message.TYPE_ERROR);
+                    }
+                }
+            },
+            error: function (result) {
+                requestError(result);
+            }
+        });
+
+    }
 </script>
 <%@ include file="/WEB-INF/common/footer.jsp" %>

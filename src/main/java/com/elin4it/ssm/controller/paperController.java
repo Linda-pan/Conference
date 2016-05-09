@@ -27,6 +27,7 @@ public class PaperController {
     @RequestMapping("")
     public String index(ModelMap model) {
         model.put("paperReviewerUrl", ConfigPropertiesUtil.getProperties("paper_reviewer_list_url"));
+        model.put("authorDetailUrl", ConfigPropertiesUtil.getProperties("author_detail_url"));
 
         return "/paper/allpaper";
     }

@@ -1,7 +1,10 @@
 package com.elin4it.ssm.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.elin4it.ssm.constant.ErrorCodeConst;
 import com.elin4it.ssm.constant.UserRoleConst;
+import com.elin4it.ssm.exception.BusinessException;
+import com.elin4it.ssm.model.JsonDataModel;
 import com.elin4it.ssm.mybatis.pagination.Order;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.pojo.User;
@@ -53,5 +56,26 @@ private UserService userService;
         Grid grid = new Grid(pageBounds.getPageList().getTotalCount(), pageBounds.getPageList().getResult());
 
         return grid.toJSONString();
+    }
+
+    @RequestMapping("/save")
+    public @ResponseBody String changeRole(int userId,byte roleId, ModelMap model) {
+
+        JsonDataModel jsonDataModel = new JsonDataModel();
+        try {
+            User user = new User();
+            user.setUserId(userId);
+            user.setRoleId(roleId);
+
+            userService.update(user);
+        } catch (BusinessException e) {
+            jsonDataModel.setErrorCode(ErrorCodeConst.BUS_EXCEPTION);
+            jsonDataModel.setStatus("false");
+            jsonDataModel.setMessage(e.getLocalizedMessage());
+        }
+
+        model.put("message", "修改成功");
+        model.put("status", true);
+        return jsonDataModel.toJSONString();
     }
 }

@@ -1,6 +1,7 @@
 package com.elin4it.ssm.mapper.dao;
 
 import com.elin4it.ssm.mapper.ConferenceStatusMapper;
+import com.elin4it.ssm.pojo.ConferenceStatus;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -8,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ConferenceStatusMapperDao extends ConferenceStatusMapper {
+    ConferenceStatus selectLastOne(int conferenceId);
 }

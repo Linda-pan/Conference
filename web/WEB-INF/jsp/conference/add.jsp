@@ -17,6 +17,8 @@
         <div class="mymodal-form clearfix">
             <div style="width:100%;margin: 0 auto;">
                 <form class="form-horizontal" id="frm_id" action="${ctx }/conference/save" method="post">
+
+
                     <div class="form-group">
                         <label style="width:15%;" class="col-sm-2 control-label">会议名称</label>
                         <div class="col-sm-6" style="width:85%;">
@@ -38,7 +40,7 @@
                         <label style="width:15%;" class="col-sm-2 control-label">开始时间</label>
                         <div class='input-group date'>
                             <input type='text' style="width:130px;" class="form-control-horizontal" id="start_date_id"
-                                   name="startTime" readonly oninput="checkTime();"/>
+                                   name="startTimeDate" readonly/>
 		                    <span style="width:15%;" class="input-group-addon">
 		                    <span class="glyphicon glyphicon-calendar"></span>
 	                    	</span>
@@ -49,36 +51,48 @@
                         <label style="width:15%;" class="col-sm-2 control-label">结束时间</label>
                         <div class='input-group date'>
                             <input type='text' style="width:130px;" class="form-control-horizontal" id="end_date_id"
-                                   name="endTime" readonly oninput="checkTime();"/>
+                                   name="endTimeDate" readonly/>
 		                    <span style="width:15%;" class="input-group-addon">
 		                    <span class="glyphicon glyphicon-calendar"></span>
 	                    	</span>
                         </div>
                     </div>
+                    <div>
+                        <input type="hidden" id="time1_id" name="startTime"/>
+                        <input type="hidden" id="time2_id" name="endTime"/>
+                    </div>
+                    <div>
+                        <label style="width:15%;" class="col-sm-2 control-label"></label>
+                        <input class="btn btn-primary" type="submit" value="保存" onclick="return check()">
+                    </div>
 
-                    <input class="btn btn-primary" type="button" value="保存">
                 </form>
 
             </div>
         </div>
     </div>
+</div>
 
 
-    <script type="text/javascript">
-        $('.date').datetimepicker({
-            language: 'zh-CN',
-            pickTime: false
-        });
+<script type="text/javascript">
+    $('.date').datetimepicker({
+        language: 'zh-CN',
+        pickTime: false
+    });
 
-        function checkTime() {
-            var startTime = $('#start_date_id').val();
-            var endTime = $('#end_date_id').val();
-            if (startTime > endTime) {
-                $.scojs_message("开始时间不能大于结束时间");
-                return false;
-            }
-            return true;
+    function check() {
+        var startTime = $('#start_date_id').val();
+        var endTime = $('#end_date_id').val();
+        if (startTime > endTime) {
+            $.scojs_message("开始时间不能大于结束时间");
+            return false;
         }
-    </script>
+        $('#time1_id').val(new Date(startTime));
+        $('#time2_id').val(new Date(endTime));
+        return true;
+    }
+
+
+</script>
 
 <%@ include file="/WEB-INF/common/footer.jsp" %>
