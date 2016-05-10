@@ -72,4 +72,17 @@ public class Conference {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
+    @Override
+    public String toString() {
+        return "Conference{" +
+                "conferenceId=" + conferenceId +
+                ", conferenceName='" + conferenceName + '\'' +
+                ", conferenceIntro='" + conferenceIntro + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", creativeTime=" + creativeTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

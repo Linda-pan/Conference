@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/user/reviewer")
-public class ReviewerController {
+public class ReviewerController extends BaseController{
     @Autowired
     private UserService userService;
 

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/conferencestatus")
-public class ConferenceStatusController {
+public class ConferenceStatusController extends BaseController{
     @Autowired
     private ConferenceStatusService conferenceStatusService;
 

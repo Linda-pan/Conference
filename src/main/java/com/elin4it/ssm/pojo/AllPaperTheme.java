@@ -20,4 +20,12 @@ public class AllPaperTheme {
     public void setTheme(String theme) {
         this.theme = theme == null ? null : theme.trim();
     }
+
+    @Override
+    public String toString() {
+        return "AllPaperTheme{" +
+                "themeId=" + themeId +
+                ", theme='" + theme + '\'' +
+                '}';
+    }
 }

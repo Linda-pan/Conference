@@ -23,6 +23,7 @@
                 <th data-field="paperId" data-align=""  data-formatter="paperReviewerList">ID(点击查看分配的审稿人员)</th>
                 <th data-field="paperName" data-align="" >论文名</th>
                 <th data-field="userId" data-align="" data-formatter="authorDetail">论文作者(点击查看作者详细内容)</th>
+                <th data-field="themeStr" data-align="">论文主题</th>
                 <th data-field="paperContent" data-align="">论文内容</th>
                 <th data-field="paperStatus" data-align="" data-formatter="paperStatusDetail">论文状态</th>
                 <th data-field="averageScore" data-align="">平均分(点击查看得分情况)</th>

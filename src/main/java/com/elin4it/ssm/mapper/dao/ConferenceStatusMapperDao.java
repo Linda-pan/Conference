@@ -10,4 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ConferenceStatusMapperDao extends ConferenceStatusMapper {
     ConferenceStatus selectLastOne(int conferenceId);
+
+
 }

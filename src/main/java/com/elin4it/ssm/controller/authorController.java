@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/user/author")
-public class AuthorController {
+public class AuthorController extends BaseController{
     @Autowired
     private UserService userService;
 

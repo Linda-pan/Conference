@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/user/alluser")
-public class AllUserController {
+public class AllUserController extends BaseController{
 @Autowired
 private UserService userService;
 

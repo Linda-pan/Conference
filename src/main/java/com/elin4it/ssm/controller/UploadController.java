@@ -18,7 +18,7 @@ import java.util.Iterator;
  */
 @Controller
 @RequestMapping("/upload")
-public class UploadController {
+public class UploadController extends BaseController{
     @RequestMapping(value="/file", method= RequestMethod.GET)
     public String showUploadPage(@RequestParam(value= "multi", required = false) Boolean multi){
         if(multi != null && multi){

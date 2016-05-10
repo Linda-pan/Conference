@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/conference")
-public class ConferenceController {
+public class ConferenceController extends BaseController{
     @Autowired
     private ConferenceService conferenceService;
 
@@ -56,7 +56,7 @@ public class ConferenceController {
         model.put("message", "保存成功");
         model.put("status", true);
 
-        return "forward:/conference/detail";
+        return "index";
 
     }
 

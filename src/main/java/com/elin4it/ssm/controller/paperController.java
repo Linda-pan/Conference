@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/paper")
-public class PaperController {
+public class PaperController extends BaseController{
     @Autowired
     private PaperService paperService;
 
@@ -36,7 +36,7 @@ public class PaperController {
     public
     @ResponseBody
     String getList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize) {
-        PageBounds<Paper> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("paper_id", "desc"));
+        PageBounds<JSONObject> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("paper_id", "desc"));
         paperService.findAllPaperPage(pageBounds);
 
         Grid grid = new Grid(pageBounds.getPageList().getTotalCount(), pageBounds.getPageList().getResult());
@@ -59,7 +59,7 @@ public class PaperController {
     public
     @ResponseBody
     String getOneList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize,@RequestParam(required = false)Integer userId) {
-        PageBounds<Paper> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("paper_id", "desc"));
+        PageBounds<JSONObject> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("paper_id", "desc"));
         paperService.findPaperPageByAuthorId(pageBounds,userId);
 
         Grid grid = new Grid(pageBounds.getPageList().getTotalCount(), pageBounds.getPageList().getResult());

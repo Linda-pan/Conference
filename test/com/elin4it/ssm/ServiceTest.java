@@ -1,11 +1,11 @@
 package com.elin4it.ssm;
 
 import com.cpvsn.core.util.DateUtil;
+import com.elin4it.ssm.pojo.AllPaperTheme;
+import com.elin4it.ssm.pojo.CommentQuestionnaire;
 import com.elin4it.ssm.pojo.Conference;
 import com.elin4it.ssm.pojo.User;
-import com.elin4it.ssm.service.ConferenceService;
-import com.elin4it.ssm.service.ReviewerPaperService;
-import com.elin4it.ssm.service.UserService;
+import com.elin4it.ssm.service.*;
 import com.elin4it.ssm.utils.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by jpan on 2016/4/7.
@@ -32,6 +33,12 @@ public class ServiceTest {
 
     @Autowired
     private ConferenceService conferenceService;
+
+    @Autowired
+    private AllPaperThemeService allPaperThemeService;
+
+    @Autowired
+    private CommentQuestionnaireService commentQuestionnaireService;
 
     @Test
     public void testSelectByName(){
@@ -62,6 +69,21 @@ public class ServiceTest {
         }
 
         conferenceService.insertConference(conference);
+        System.out.print(conference);
     }
 
+    @Test
+    public void getTheme(){
+        List<AllPaperTheme> themes=allPaperThemeService.getThemeByPaperId(5);
+        System.out.println(themes);
+        System.out.print("**************");
+    }
+
+    @Test
+    public void getCommentQ(){
+        CommentQuestionnaire themes=commentQuestionnaireService.selectCommentQByTheme(0);
+        System.out.print("**************");
+        System.out.println(themes);
+
+    }
 }

@@ -25,7 +25,7 @@
                 <th data-field="paperId" data-align="">ID</th>
                 <th data-field="paperName" data-align="" >论文名</th>
                 <th data-field="paperContent" data-align="">论文内容</th>
-                <th data-field="" data-align="">论文主题</th>
+                <th data-field="themeStr" data-align="">论文主题</th>
                 <th data-field="paperStatus" data-align="" data-formatter="paperStatusDetail">论文状态</th>
                 <th data-field="averageScore" data-align="">平均分(点击查看得分情况)</th>
                 <th data-field="isEmailPost" data-align="">是否通知</th>

@@ -136,4 +136,12 @@
       q5 = #{q5,jdbcType=VARCHAR}
     where comment_q_id = #{commentQId,jdbcType=INTEGER}
   </update>
+
+  <select id="selectByThemeId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select *
+    from comment_questionnaire
+    where theme_id= #{themeId}
+    Order by comment_q_id desc
+    limit 1
+  </select>
 </mapper>

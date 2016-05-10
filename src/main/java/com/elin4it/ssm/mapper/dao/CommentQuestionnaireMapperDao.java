@@ -1,6 +1,7 @@
 package com.elin4it.ssm.mapper.dao;
 
 import com.elin4it.ssm.mapper.CommentQuestionnaireMapper;
+import com.elin4it.ssm.pojo.CommentQuestionnaire;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -8,4 +9,5 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface CommentQuestionnaireMapperDao extends CommentQuestionnaireMapper {
+    CommentQuestionnaire selectByThemeId(Integer themeId);
 }
