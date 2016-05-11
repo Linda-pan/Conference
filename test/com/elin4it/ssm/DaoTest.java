@@ -1,15 +1,14 @@
 package com.elin4it.ssm;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.elin4it.ssm.mapper.dao.CommentMapperDao;
 import com.elin4it.ssm.mapper.dao.CommentQuestionnaireMapperDao;
 import com.elin4it.ssm.mapper.dao.ConferenceMapperDao;
 import com.elin4it.ssm.mapper.dao.UserMapperDao;
 import com.elin4it.ssm.mybatis.pagination.Order;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
-import com.elin4it.ssm.pojo.CommentQuestionnaire;
-import com.elin4it.ssm.pojo.Conference;
-import com.elin4it.ssm.pojo.ConferenceStatus;
-import com.elin4it.ssm.pojo.User;
+import com.elin4it.ssm.pojo.*;
 import com.elin4it.ssm.service.ConferenceService;
 import com.elin4it.ssm.utils.DateUtils;
 import org.junit.Test;
@@ -39,6 +38,9 @@ public class DaoTest {
 
     @Autowired
     CommentQuestionnaireMapperDao commentQuestionnaireMapperDao;
+
+    @Autowired
+    CommentMapperDao commentMapperDao;
 
     @Test
     public void testSelectByNameAndPwd() throws Exception {
@@ -89,6 +91,12 @@ public class DaoTest {
         System.out.print("**************");
         System.out.println(themes);
 
+    }
+    @Test
+    public void testSelectCommentByPaperId(){
+        List<Comment> comment =commentMapperDao.selectCommentByPaperId(1);
+        System.out.print("**************");
+        System.out.println(comment);
     }
 
 }

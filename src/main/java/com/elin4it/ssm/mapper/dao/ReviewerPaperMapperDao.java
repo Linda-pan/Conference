@@ -20,4 +20,6 @@ public interface ReviewerPaperMapperDao extends ReviewerPaperMapper {
     List<ReviewerPaper> selectReviewerPaperByReviewerId(PageBounds<Paper> pageBounds, int userId);
 
     List<ReviewerPaper> selectReviewerByPaperId(PageBounds<User> pageBounds, @Param("paperId") int paperId);
+
+    List<ReviewerPaper> selectReviewerByPaperId(@Param("paperId") int paperId);
 }

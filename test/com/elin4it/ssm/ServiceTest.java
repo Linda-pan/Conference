@@ -1,12 +1,12 @@
 package com.elin4it.ssm;
 
+import com.alibaba.fastjson.JSONObject;
 import com.cpvsn.core.util.DateUtil;
-import com.elin4it.ssm.pojo.AllPaperTheme;
-import com.elin4it.ssm.pojo.CommentQuestionnaire;
-import com.elin4it.ssm.pojo.Conference;
-import com.elin4it.ssm.pojo.User;
+import com.elin4it.ssm.pojo.*;
 import com.elin4it.ssm.service.*;
 import com.elin4it.ssm.utils.DateUtils;
+import net.sf.json.JSON;
+import org.elasticsearch.common.collect.HppcMaps;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +39,9 @@ public class ServiceTest {
 
     @Autowired
     private CommentQuestionnaireService commentQuestionnaireService;
+
+    @Autowired
+    private CommentService commentService;
 
     @Test
     public void testSelectByName(){
@@ -86,4 +89,11 @@ public class ServiceTest {
         System.out.println(themes);
 
     }
+    @Test
+    public void getAllTheme(){
+        List<AllPaperTheme> themes=allPaperThemeService.getAllTheme();
+        System.out.println(themes);
+        System.out.print("**************");
+    }
+
 }

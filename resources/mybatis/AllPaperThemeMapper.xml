@@ -1,44 +1,81 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.elin4it.ssm.mapper.dao.AllPaperThemeMapperDao">
-    <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.AllPaperTheme">
-        <result column="theme_id" property="themeId" jdbcType="INTEGER"/>
-        <result column="theme" property="theme" jdbcType="VARCHAR"/>
-    </resultMap>
-    <insert id="insert" parameterType="com.elin4it.ssm.pojo.AllPaperTheme">
+<mapper namespace="com.elin4it.ssm.mapper.dao.AllPaperThemeMapperDao" >
+  <resultMap id="BaseResultMap" type="com.elin4it.ssm.pojo.AllPaperTheme" >
+    <id column="theme_id" property="themeId" jdbcType="INTEGER" />
+    <result column="theme" property="theme" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    theme_id, theme
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from all_paper_theme
+    where theme_id = #{themeId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from all_paper_theme
+    where theme_id = #{themeId,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.elin4it.ssm.pojo.AllPaperTheme" >
     insert into all_paper_theme (theme_id, theme)
     values (#{themeId,jdbcType=INTEGER}, #{theme,jdbcType=VARCHAR})
   </insert>
-    <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.AllPaperTheme">
-        insert into all_paper_theme
-        <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="themeId != null">
-                theme_id,
-            </if>
-            <if test="theme != null">
-                theme,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="themeId != null">
-                #{themeId,jdbcType=INTEGER},
-            </if>
-            <if test="theme != null">
-                #{theme,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
+  <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.AllPaperTheme" >
+    insert into all_paper_theme
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="themeId != null" >
+        theme_id,
+      </if>
+      <if test="theme != null" >
+        theme,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="themeId != null" >
+        #{themeId,jdbcType=INTEGER},
+      </if>
+      <if test="theme != null" >
+        #{theme,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.elin4it.ssm.pojo.AllPaperTheme" >
+    update all_paper_theme
+    <set >
+      <if test="theme != null" >
+        theme = #{theme,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where theme_id = #{themeId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.elin4it.ssm.pojo.AllPaperTheme" >
+    update all_paper_theme
+    set theme = #{theme,jdbcType=VARCHAR}
+    where theme_id = #{themeId,jdbcType=INTEGER}
+  </update>
 
-    <select id="selectAllTheme" resultMap="BaseResultMap">
+  <select id="selectAllTheme" resultMap="BaseResultMap">
     SELECT *
     from all_paper_theme
-    order by themeId
+    order by theme_id
   </select>
 
-    <select id="selectByThemeId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+  <select id="selectByThemeId" resultMap="BaseResultMap" parameterType="java.lang.Integer">
     SELECT *
     from all_paper_theme
     where theme_id = #{themeId,jdbcType=INTEGER}
   </select>
 
+  <insert id="insertByName" parameterType="java.lang.String">
+    insert into all_paper_theme (theme)
+    values ( #{theme,jdbcType=VARCHAR})
+  </insert>
+
+  <select id="getByName" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT *
+    from all_paper_theme
+    where theme = #{theme}
+  </select>
 </mapper>

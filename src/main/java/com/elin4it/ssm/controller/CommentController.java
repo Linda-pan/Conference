@@ -9,8 +9,10 @@ import com.elin4it.ssm.mybatis.pagination.Order;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.pojo.Comment;
 import com.elin4it.ssm.pojo.CommentQuestionnaire;
+import com.elin4it.ssm.pojo.Paper;
 import com.elin4it.ssm.service.CommentQuestionnaireService;
 import com.elin4it.ssm.service.CommentService;
+import com.elin4it.ssm.service.PaperService;
 import com.elin4it.ssm.utils.ConfigPropertiesUtil;
 import com.elin4it.ssm.utils.Grid;
 import com.elin4it.ssm.utils.WebUtil;
@@ -34,6 +36,9 @@ public class CommentController extends BaseController {
 
     @Autowired
     private CommentQuestionnaireService commentQuestionnaireService;
+
+    @Autowired
+    private PaperService paperService;
 
     @RequestMapping("")
     public String index(ModelMap model, @RequestParam(required = true, defaultValue = "1") Integer paperId) {
@@ -100,13 +105,22 @@ public class CommentController extends BaseController {
         return "index";
     }
 
+    @RequestMapping("commentlist")
+    public String index2(ModelMap model, @RequestParam(required = true, defaultValue = "1") Integer paperId) {
+        model.put("reviewerDetailUrl", ConfigPropertiesUtil.getProperties("reviewer_detail_url"));
+        model.put("paperId", paperId);
+        model.put("paperName", paperService.getByPaperId(paperId).getPaperName());
+
+        return "/comment/commentlist";
+    }
+
     @RequestMapping("list")
     public
     @ResponseBody
     String getCommentList(@RequestParam(required = false, defaultValue = "1") int pageNo, @RequestParam(required = false, defaultValue = "50") int pageSize, @RequestParam(required = false, defaultValue = "1") Integer paperId) {
-        PageBounds<JSONObject> pageBounds = new PageBounds<JSONObject>(pageNo, pageSize, Order.create("user_id", "desc"));
+        PageBounds<JSONObject> pageBounds = new PageBounds<>(pageNo, pageSize, Order.create("user_id", "desc"));
 
-       // commentService.findCommentPageByPaperId(paperId);
+        commentService.findCommentPageByPaperId(pageBounds,paperId);
 
         Grid grid = new Grid(pageBounds.getPageList().getTotalCount(), pageBounds.getPageList().getResult());
 

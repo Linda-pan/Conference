@@ -14,4 +14,9 @@ public interface AllPaperThemeMapperDao extends AllPaperThemeMapper {
     List<AllPaperTheme> selectAllTheme();
 
     AllPaperTheme selectByThemeId(int themeId);
+
+    int insertByName(String theme);
+
+    AllPaperTheme getByName(String theme);
+
 }

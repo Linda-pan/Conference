@@ -70,4 +70,17 @@ public class Comment extends CommentKey {
     public void setScore(Byte score) {
         this.score = score;
     }
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "q1=" + q1 +
+                ", q2=" + q2 +
+                ", q3=" + q3 +
+                ", q4=" + q4 +
+                ", q5=" + q5 +
+                ", shortComment='" + shortComment + '\'' +
+                ", score=" + score +
+                '}';
+    }
 }

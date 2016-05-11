@@ -2,6 +2,7 @@ package com.elin4it.ssm.mapper.dao;
 
 import com.elin4it.ssm.mapper.PaperThemeMapper;
 import com.elin4it.ssm.pojo.Paper;
+import com.elin4it.ssm.pojo.PaperTheme;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 

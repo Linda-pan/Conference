@@ -34,8 +34,8 @@ public class UserController extends BaseController {
     @RequestMapping("detail")
     public String showDetail(HttpServletRequest request, @RequestParam(required = false) Integer type, ModelMap model) {
         JSONObject statusMap = new JSONObject();
-        statusMap.put("0", "是");
-        statusMap.put("1", "否");
+        statusMap.put("0", "否");
+        statusMap.put("1", "是");
         model.put("StatusMap", statusMap);
 
         int statu = 0;

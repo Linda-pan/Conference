@@ -48,4 +48,14 @@ public class AllPaperThemeService {
         }
         return str;
     }
+
+    public List<AllPaperTheme> getAllTheme(){
+        return allPaperThemeMapperDao.selectAllTheme();
+    }
+
+    public void updateTheme(AllPaperTheme allPaperTheme){allPaperThemeMapperDao.updateByPrimaryKey(allPaperTheme);}
+
+    public void insertTheme(String theme){allPaperThemeMapperDao.insertByName(theme);}
+
+    public AllPaperTheme getByName(String name){return allPaperThemeMapperDao.getByName(name);}
 }

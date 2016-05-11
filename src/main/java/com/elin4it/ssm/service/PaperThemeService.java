@@ -19,6 +19,4 @@ public class PaperThemeService {
     @Autowired
     private PaperThemeMapperDao paperThemeMapperDao;
 
-
-
 }

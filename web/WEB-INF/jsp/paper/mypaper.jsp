@@ -27,7 +27,7 @@
                 <th data-field="paperContent" data-align="">论文内容</th>
                 <th data-field="themeStr" data-align="">论文主题</th>
                 <th data-field="paperStatus" data-align="" data-formatter="paperStatusDetail">论文状态</th>
-                <th data-field="averageScore" data-align="">平均分(点击查看得分情况)</th>
+                <th data-field="averageScore" data-align="" data-formatter="scoreDetail">平均分(点击查看得分情况,三个专家评分后显示平均分)</th>
                 <th data-field="isEmailPost" data-align="">是否通知</th>
 
             </tr>
@@ -73,6 +73,17 @@
     function paperReviewerList(value, row, index) {
         var content = [];
         content.push('<a href="${paperReviewerUrl}' + row.paperId + '"');
+        content.push(' target="_blank" ');
+        content.push('>');
+        content.push(value);
+        content.push('</a>');
+        var a = content.join('');
+        return a;
+    }
+
+    function scoreDetail(value, row, index) {
+        var content = [];
+        content.push('<a href="${paperCommentUrl}' + row.paperId+ '"');
         content.push(' target="_blank" ');
         content.push('>');
         content.push(value);

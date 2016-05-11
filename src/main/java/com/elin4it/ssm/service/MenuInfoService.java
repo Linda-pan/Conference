@@ -19,9 +19,16 @@ public class MenuInfoService {
     private MenuInfoMapperDao menuInfoMapperDao;
 
     public List<MenuInfo> getAllFirstMenuInfo(Integer roleId) {
-       //此处要修改权限
+        int level = 0;
+        if (roleId == 0) {
+            level = 2;
+        } else if (roleId == 1) {
+            level = 0;
+        } else if (roleId == 2) {
+            level = 1;
+        }
 
-            return menuInfoMapperDao.selectByLevel(0);
+        return menuInfoMapperDao.selectByLevel(level);
 
     }
 }

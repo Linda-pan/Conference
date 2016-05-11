@@ -48,7 +48,7 @@
                 </ul>
                 <ul>
                     <li>
-                        <label style="width:150px;">是否实名：</label>
+                        <label style="width:150px;">是否实名(仅作者可匿名)：</label>
                         <select class="form-control-horizontal" style="width:300px;" id="is_show_name_id"
                                 name="is_show_id" readonly disabled="disabled">
                             <c:forEach items="${StatusMap}" var="type">
@@ -175,7 +175,7 @@
                 </ul>
                 <ul>
                     <li>
-                        <label style="width:150px;">密码(大于6位)：</label>
+                        <label style="width:150px;">密码(至少6位)：</label>
                         <input type="password" class="form-input" style="width:500px;" id="password1_id"
                                name="password1"
                                onfocus="removeError('hot_error_id');">

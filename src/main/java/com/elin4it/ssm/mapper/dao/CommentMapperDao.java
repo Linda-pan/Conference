@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Repository
 public interface CommentMapperDao extends CommentMapper {
-    List<Comment> selectCommentByPaperId(int paperId);
+    List<Comment> selectCommentByPaperId(@Param("paperId") int paperId);
 
-    List<Comment> selectCommentByPaperId(@Param("pageBounds") PageBounds<Comment> pageBounds ,int paperId);
+    List<Comment> selectCommentByPaperId(@Param("pageBounds") PageBounds<Comment> pageBounds ,@Param("paperId") int paperId);
 }

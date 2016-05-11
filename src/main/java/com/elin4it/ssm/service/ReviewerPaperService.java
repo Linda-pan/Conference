@@ -25,4 +25,15 @@ public class ReviewerPaperService {
         }
         return count;
     }
+
+    public int getReviewerCountByPaperId(int id) {
+        List<ReviewerPaper> reviewerPaperList = reviewerPaperMapperDao.selectReviewerByPaperId(id);
+        int count = 0;
+        for (ReviewerPaper reviewerPaper : reviewerPaperList) {
+            if (reviewerPaper != null) {
+                count++;
+            }
+        }
+        return count;
+    }
 }
