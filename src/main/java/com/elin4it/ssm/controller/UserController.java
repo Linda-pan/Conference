@@ -10,13 +10,16 @@ import com.elin4it.ssm.pojo.User;
 import com.elin4it.ssm.service.UserService;
 import com.elin4it.ssm.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -46,8 +49,8 @@ public class UserController extends BaseController {
         model.put("userId", type);
         model.put("statu", statu);
 
-        User user =userService.selectById(type);
-        model.put("roleId",user.getRoleId());
+        User user = userService.selectById(type);
+        model.put("roleId", user.getRoleId());
 
         return "user/userdetail";
     }
@@ -71,7 +74,9 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("save")
-    public @ResponseBody String add(User user, ModelMap model) {
+    public
+    @ResponseBody
+    String add(User user, ModelMap model) {
         JsonDataModel jsonDataModel = new JsonDataModel();
 
         try {
@@ -87,7 +92,9 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping("save/password")
-    public @ResponseBody String changepassword(@RequestParam int userId, String password, ModelMap model) {
+    public
+    @ResponseBody
+    String changepassword(@RequestParam int userId, String password, ModelMap model) {
 
         JsonDataModel jsonDataModel = new JsonDataModel();
         try {
@@ -106,4 +113,5 @@ public class UserController extends BaseController {
 
         return jsonDataModel.toJSONString();
     }
+
 }

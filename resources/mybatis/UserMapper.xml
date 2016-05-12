@@ -47,7 +47,7 @@
       #{isPaymentConfirmed,jdbcType=BIT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-    <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.User">
+    <insert id="insertSelective" parameterType="com.elin4it.ssm.pojo.User" keyProperty="userId" useGeneratedKeys="true">
         insert into user
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="userId != null">
@@ -246,4 +246,11 @@
     AND USER .user_id = reviewer_paper.user_id
     ORDER by user_id desc
   </select>
+
+    <select id="findByEmail" parameterType="Map" resultMap="BaseResultMap">
+        SELECT *
+        FROM USER
+        WHERE
+           email = #{email,jdbcType=VARCHAR}
+    </select>
 </mapper>

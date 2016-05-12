@@ -96,4 +96,10 @@ public class ServiceTest {
         System.out.print("**************");
     }
 
+    @Test
+    public void testEmail(){
+        User user=userService.selectById(4);
+        userService.processregister(user);
+    }
+
 }

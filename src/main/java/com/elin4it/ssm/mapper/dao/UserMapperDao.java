@@ -24,4 +24,6 @@ public interface UserMapperDao extends UserMapper {
 
     List<User> findPageByPaperId(PageBounds<User> pageBounds, @Param("paperId") int paperId);
 
+    User findByEmail(@Param("email")String email);
+
 }

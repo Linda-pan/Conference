@@ -185,7 +185,7 @@
 			<button type="submit" class="btn btn-block btn-primary">登录</button>
 		</form>
 		<hr>
-		<p class="text-center misc-links">忘记密码&nbsp;&bull;&nbsp; 请再注册一个</p>
+		<p class="text-center misc-links">忘记密码&nbsp;&bull;&nbsp;  <a href="http://localhost:8080/register" target="_blank" class="text-center misc-links">注册</a></p>
 	</div>
 </div>
 </body>

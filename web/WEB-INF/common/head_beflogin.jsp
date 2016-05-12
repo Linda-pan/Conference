@@ -123,7 +123,7 @@
 						class="icon-bar"></span><span class="icon-bar"></span><span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${ctx }/index">首页</a>
+				<a class="navbar-brand" href="${ctx }/login">登录</a>
 			</div>
 		
 		</div>
