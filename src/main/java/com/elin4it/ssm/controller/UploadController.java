@@ -31,8 +31,7 @@ public class UploadController extends BaseController{
     public String doUploadFile(@RequestParam("file") MultipartFile file) throws IOException {
 
         if(!file.isEmpty()){
-            //log.debug("Process file: {}", file.getOriginalFilename());
-            FileUtils.copyInputStreamToFile(file.getInputStream(), new File("d:\\temp\\paper\\", System.currentTimeMillis()+ file.getOriginalFilename()));
+            FileUtils.copyInputStreamToFile(file.getInputStream(), new File(".\\temp\\paper\\", System.currentTimeMillis()+ file.getOriginalFilename()));
         }
 
         return "index";

@@ -7,13 +7,17 @@ import com.elin4it.ssm.mapper.dao.PaperMapperDao;
 import com.elin4it.ssm.mapper.dao.ReviewerPaperMapperDao;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.mybatis.pagination.PageList;
+import com.elin4it.ssm.pojo.Comment;
 import com.elin4it.ssm.pojo.Paper;
 import com.elin4it.ssm.pojo.ReviewerPaper;
 import com.elin4it.ssm.pojo.User;
+import com.elin4it.ssm.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +33,12 @@ public class PaperService {
 
     @Autowired
     private AllPaperThemeService allPaperThemeService;
+
+    @Autowired
+    private CommentService commentService;
+
+    @Autowired
+    private UserService userService;
 
     public List<Paper> findAllPaperPage(PageBounds<JSONObject> pageBounds) {
         PageBounds<Paper> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
@@ -46,8 +56,8 @@ public class PaperService {
             paperModel.put("paperContent", paper.getPaperContent());
             paperModel.put("updateTime", paper.getUpdateTime());
 
-            paperModel.put("themeStr",allPaperThemeService.getThemeStrByPaperId(paper.getPaperId()));
-            paperModel.put("theme",allPaperThemeService.getThemeByPaperId(paper.getPaperId()));
+            paperModel.put("themeStr", allPaperThemeService.getThemeStrByPaperId(paper.getPaperId()));
+            paperModel.put("theme", allPaperThemeService.getThemeByPaperId(paper.getPaperId()));
             paperModelList.add(paperModel);
         }
 
@@ -60,7 +70,7 @@ public class PaperService {
     public List<Paper> findPaperPageByAuthorId(PageBounds<JSONObject> pageBounds, int uid) {
 
         PageBounds<Paper> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
-        List<Paper> paperList = paperMapperDao.selectPaperByUid(param,uid);
+        List<Paper> paperList = paperMapperDao.selectPaperByUid(param, uid);
 
         List<JSONObject> paperModelList = new ArrayList<>();
         for (Paper paper : paperList) {
@@ -69,7 +79,7 @@ public class PaperService {
             paperModel.put("paperName", paper.getPaperName());
             paperModel.put("paperStatus", paper.getPaperStatus());
             paperModel.put("averageScore", paper.getAverageScore());
-            paperModel.put("themeStr",allPaperThemeService.getThemeStrByPaperId(paper.getPaperId()));
+            paperModel.put("themeStr", allPaperThemeService.getThemeStrByPaperId(paper.getPaperId()));
             paperModel.put("paperContent", paper.getPaperContent());
             paperModel.put("updateTime", paper.getUpdateTime());
             paperModel.put("isEmailPost", paper.getIsEmailPost());
@@ -115,7 +125,28 @@ public class PaperService {
             paperModel.put("isEmailPost", paper.getIsEmailPost());
             paperModel.put("paperContent", paper.getPaperContent());
             paperModel.put("updateTime", paper.getUpdateTime());
-            paperModel.put("themeStr",allPaperThemeService.getThemeStrByPaperId(paper.getPaperId()));
+
+            Comment comment = commentService.selectCommentByPAndU(paper.getPaperId());
+            String is = "";
+            if (comment == null) {
+                is = "未填写";
+            } else {
+                is = "已填写";
+            }
+
+            paperModel.put("isComment", is);
+            paperModel.put("themeStr", allPaperThemeService.getThemeStrByPaperId(paper.getPaperId()));
+
+            User user = userService.selectById(paper.getUserId());
+            String authorName = "";
+            if (user.getIsShowName()) {
+                authorName = user.getTrueName();
+            } else {
+                authorName = "匿名";
+            }
+            paperModel.put("authorName", authorName);
+            paperModel.put("isShowName", user.getIsShowName());
+
             paperModelList.add(paperModel);
         }
 
@@ -125,4 +156,66 @@ public class PaperService {
         return paperModelList;
     }
 
+    public Paper getByPaperId(int paperId) {
+        return paperMapperDao.selectByPrimaryKey(paperId);
+    }
+
+    public List<JSONObject> findEndPaperPageByReviewerId(PageBounds<JSONObject> pageBounds, int userId) {
+        PageBounds<Paper> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
+
+        List<JSONObject> paperModelList = new ArrayList<>();
+        List<ReviewerPaper> reviewerPapers = reviewerPaperMapperDao.selectReviewerPaperByReviewerId(param, userId);
+        for (ReviewerPaper reviewerPaper : reviewerPapers) {
+            Paper paper = paperMapperDao.selectByPrimaryKey(reviewerPaper.getPaperId());
+
+            Comment comment = commentService.selectCommentByPAndU(paper.getPaperId());
+            if (comment != null) {
+
+                JSONObject paperModel = new JSONObject();
+                paperModel.put("paperId", paper.getPaperId());
+                paperModel.put("userId", paper.getUserId());
+                paperModel.put("paperName", paper.getPaperName());
+                paperModel.put("paperStatus", paper.getPaperStatus());
+                paperModel.put("averageScore", paper.getAverageScore());
+                paperModel.put("isEmailPost", paper.getIsEmailPost());
+                paperModel.put("paperContent", paper.getPaperContent());
+                paperModel.put("updateTime", paper.getUpdateTime());
+
+                paperModel.put("comment", "查看问卷");
+                paperModel.put("themeStr", allPaperThemeService.getThemeStrByPaperId(paper.getPaperId()));
+
+                User user = userService.selectById(paper.getUserId());
+                String authorName = "";
+                if (user.getIsShowName()) {
+                    authorName = user.getTrueName();
+                } else {
+                    authorName = "匿名";
+                }
+                paperModel.put("authorName", authorName);
+                paperModel.put("isShowName", user.getIsShowName());
+
+                paperModelList.add(paperModel);
+            }
+        }
+
+        PageList<JSONObject> pageList = new PageList<>(param.getPageList().getPageNo(), param.getPageList().getPageSize(), param.getPageList().getTotalCount(), paperModelList);
+        pageBounds.setPageList(pageList);
+
+        return paperModelList;
+    }
+
+    public void insert(String name){
+        Paper paper =new Paper();
+
+        paper.setUserId(WebUtil.getCurrentUser().getUserId());
+        paper.setCreateTime(new Date());
+        paper.setPaperStatus((byte)0);
+        paper.setPaperName(name);
+
+        /***补***/
+        paper.setPaperContent("");
+        paper.setIsEmailPost(false);
+
+        paperMapperDao.insertSelective(paper);
+    }
 }
