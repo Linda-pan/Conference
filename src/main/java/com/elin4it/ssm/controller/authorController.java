@@ -1,8 +1,12 @@
 package com.elin4it.ssm.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.elin4it.ssm.constant.ErrorCodeConst;
+import com.elin4it.ssm.exception.BusinessException;
+import com.elin4it.ssm.model.JsonDataModel;
 import com.elin4it.ssm.mybatis.pagination.Order;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
+import com.elin4it.ssm.pojo.User;
 import com.elin4it.ssm.service.UserService;
 import com.elin4it.ssm.utils.ConfigPropertiesUtil;
 import com.elin4it.ssm.utils.Grid;
@@ -25,6 +29,12 @@ public class AuthorController extends BaseController{
     @RequestMapping("")
     public String index(ModelMap model) {
         model.put("authorPaperUrl", ConfigPropertiesUtil.getProperties("author_paper_list_url"));
+
+        JSONObject status = new JSONObject();
+        status.put("true", "通过审核");
+        status.put("false","未通过审核");
+        model.put("status",status);
+
         return "/user/author";
     }
 
@@ -38,5 +48,15 @@ public class AuthorController extends BaseController{
         Grid grid = new Grid(pageBounds.getPageList().getTotalCount(), pageBounds.getPageList().getResult());
 
         return grid.toJSONString();
+    }
+
+    @RequestMapping("savepayment")
+    public String savepayment(int userId,Boolean isPaymentConfirmed ,ModelMap model) {
+
+            User user=userService.selectById(userId);
+            user.setIsPaymentConfirmed(isPaymentConfirmed);
+            userService.update(user);
+
+        return "redirect:/user/author" ;
     }
 }

@@ -32,7 +32,7 @@
                         <label style="width:15%;" class="col-sm-2 control-label">会议概述</label>
                         <div class="col-sm-6" style="width:85%;">
                             <textarea style="width: 90%;" class="form-control" placeholder="" name="conferenceIntro"
-                                      id="conferenceIntro_id" validate="{required:true,maxByteLength:100}"> </textarea>
+                                      id="conferenceIntro_id" validate="{required:true,maxByteLength:50}"> </textarea>
                         </div>
                     </div>
 

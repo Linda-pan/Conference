@@ -152,4 +152,11 @@
     where user_id = #{user_id,jdbcType=INTEGER}
     ORDER by create_time desc
   </select>
+
+  <select id="selectPaperByStatus" parameterType="Map" resultMap="BaseResultMap">
+    select *
+    from paper
+    where paper_status=#{paper_status}
+    ORDER by paper_id desc
+  </select>
 </mapper>

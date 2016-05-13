@@ -88,12 +88,12 @@
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
         </table>-->
-        <table tableName="all_paper_theme" domainObjectName="AllPaperTheme" enableInsert="true"
+       <!-- <table tableName="all_paper_theme" domainObjectName="AllPaperTheme" enableInsert="true"
                enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
             <property name="useActualColumnNames" value="false"/>
-        </table>
+        </table>-->
        <!-- <table tableName="paper_theme" domainObjectName="PaperTheme" enableInsert="true"
                enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
                enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
@@ -112,6 +112,12 @@
               enableSelectByExample="false" selectByExampleQueryId="false">
            <property name="useActualColumnNames" value="false"/>
        </table>-->
+        <table tableName="reviewer_theme" domainObjectName="ReviewerTheme" enableInsert="true"
+               enableSelectByPrimaryKey="true" enableUpdateByPrimaryKey="true" enableDeleteByPrimaryKey="true"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
     </context>
 
 </generatorConfiguration>

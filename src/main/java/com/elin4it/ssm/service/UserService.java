@@ -5,11 +5,10 @@ import com.cpvsn.core.encode.MD5Util;
 import com.elin4it.ssm.constant.PaperStatusConst;
 import com.elin4it.ssm.exception.BusinessException;
 import com.elin4it.ssm.mapper.ReviewerPaperMapper;
-import com.elin4it.ssm.mapper.dao.PaperMapperDao;
-import com.elin4it.ssm.mapper.dao.ReviewerPaperMapperDao;
-import com.elin4it.ssm.mapper.dao.UserMapperDao;
+import com.elin4it.ssm.mapper.dao.*;
 import com.elin4it.ssm.model.SendEmail;
 import com.elin4it.ssm.model.UserModel;
+import com.elin4it.ssm.mybatis.pagination.Order;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.mybatis.pagination.PageList;
 import com.elin4it.ssm.pojo.*;
@@ -41,6 +40,16 @@ public class UserService {
     private UserModelService userModelService;
     @Autowired
     private ConferenceService conferenceService;
+    @Autowired
+    private ReviewerThemeMapperDao reviewerThemeMapperDao;
+    @Autowired
+    private PaperThemeMapperDao paperThemeMapperDao;
+    @Autowired
+    private AllPaperThemeMapperDao allPaperThemeMapperDao;
+    @Autowired
+    private CommentService commentService;
+    @Autowired
+    private CommentMapperDao commentMapperDao;
 
     public User login(String userName, String password) {
 
@@ -155,7 +164,7 @@ public class UserService {
                 } else if (a == 0) {
                     //一份论文都没有上传缴费单状态
                     userModel.put("inform", 2);
-                } else{
+                } else {
                     //出现上传了缴费单的论文
                     userModel.put("inform", 3);
                 }
@@ -206,6 +215,66 @@ public class UserService {
         return userModelList;
     }
 
+    public List<JSONObject> findReviewerPageByTheme(PageBounds<JSONObject> pageBounds, int themeId) {
+        PageBounds<ReviewerTheme> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), Order.create("userId", "desc"));
+
+        List<JSONObject> userModelList = new ArrayList<>();
+
+        List<ReviewerTheme> reviewerThemes = reviewerThemeMapperDao.getByThemeId(param, themeId);
+
+        for (ReviewerTheme reviewerTheme : reviewerThemes) {
+
+            User user = userMapperDao.selectByPrimaryKey(reviewerTheme.getUserid());
+
+            JSONObject userModel = new JSONObject();
+            int num = 0;
+            List<ReviewerPaper> reviewpapers = reviewerPaperMapperDao.selectReviewerPaperByReviewerId(reviewerTheme.getUserid());
+            for (ReviewerPaper reviewpaper : reviewpapers) {
+                CommentKey comKey = new CommentKey();
+                comKey.setUserId(user.getUserId());
+                comKey.setPaperId(reviewpaper.getPaperId());
+
+                if (commentMapperDao.selectByPrimaryKey(comKey) != null) {
+                    num++;
+                }
+            }
+            userModel.put("doReviewPaperNum", num);
+            userModel.put("reviewPaperNum", reviewerPaperService.getPaperCountByReviewerId(user.getUserId()));
+
+            userModel.put("userId", user.getUserId());
+            userModel.put("trueName", user.getTrueName());
+
+            userModel.put("theme1", allPaperThemeMapperDao.selectByPrimaryKey(reviewerTheme.getTheme1()).getTheme());
+            userModel.put("theme1Id", reviewerTheme.getTheme1());
+            userModel.put("theme2", allPaperThemeMapperDao.selectByPrimaryKey(reviewerTheme.getTheme2()).getTheme());
+            userModel.put("theme2Id", reviewerTheme.getTheme2());
+            userModel.put("theme3", allPaperThemeMapperDao.selectByPrimaryKey(reviewerTheme.getTheme3()).getTheme());
+            userModel.put("theme3Id", reviewerTheme.getTheme3());
+            userModel.put("theme4", allPaperThemeMapperDao.selectByPrimaryKey(reviewerTheme.getTheme4()).getTheme());
+            userModel.put("theme4Id", reviewerTheme.getTheme4());
+
+            userModelList.add(userModel);
+        }
+
+        PageList<JSONObject> pageList = new PageList<>(param.getPageList().getPageNo(), param.getPageList().getPageSize(), param.getPageList().getTotalCount(), userModelList);
+        pageBounds.setPageList(pageList);
+
+        return userModelList;
+    }
+
+    public List<User> findReviewerByTheme(int themeId) {
+        List<User> userList = new ArrayList<>();
+        List<ReviewerTheme> reviewerThemes = reviewerThemeMapperDao.getByThemeId(themeId);
+
+        for (ReviewerTheme reviewerTheme : reviewerThemes) {
+            User user = userMapperDao.selectByPrimaryKey(reviewerTheme.getUserid());
+
+            userList.add(user);
+        }
+
+        return userList;
+    }
+
     public void processregister(User user) {
         this.insert(user);
         UserModel userModel = userModelService.getByUserId(user.getUserId());
@@ -248,8 +317,8 @@ public class UserService {
         }
     }
 
-    public void processInformPass(int userId) {
-        User user= this.selectById(userId);
+    public void processInformPass(int userId) throws BusinessException {
+        User user = this.selectById(userId);
 
         StringBuffer sb = new StringBuffer("您已有论文通过审核，请尽快缴费并上传您的缴费单</br>");
 
@@ -257,11 +326,11 @@ public class UserService {
         SendEmail.send(user.getEmail(), sb.toString());
     }
 
-    public void processInformM(int userId) {
-        User user= this.selectById(userId);
+    public void processInformUpload(int userId) throws BusinessException {
+        User user = this.selectById(userId);
 
         StringBuffer sb = new StringBuffer("请尽快缴费并上传您的缴费单</br>");
-        JSONObject conference =conferenceService.selectLastConference();
+        JSONObject conference = conferenceService.selectLastConference();
         sb.append(conference.get("conferenceName"));
         sb.append("会议开放截止时间为：");
         sb.append(conference.get("endTime"));
@@ -269,18 +338,18 @@ public class UserService {
         SendEmail.send(user.getEmail(), sb.toString());
     }
 
-    public void processInformP(int userId,Boolean result) {
-        User user= this.selectById(userId);
-        StringBuffer sb=new StringBuffer();
-        if(result) {
-          sb = new StringBuffer("您的缴费单验证通过！您具有了参加此次会议的机会</br>");
-            JSONObject conference =conferenceService.selectLastConference();
+    public void processInformReady(int userId, Boolean result) {
+        User user = this.selectById(userId);
+        StringBuffer sb;
+        if (result) {
+            sb = new StringBuffer("您的缴费单验证通过！您具有了参加此次会议的机会</br>");
+            JSONObject conference = conferenceService.selectLastConference();
             sb.append("会议详情：");
             sb.append(conference.get("conferenceName"));
             sb.append("</br>");
             sb.append(conference.get("conferenceIntro"));
-        }else{
-             sb = new StringBuffer("抱歉！您的缴费单验证失败，请及时重新上传缴费单</br>");
+        } else {
+            sb = new StringBuffer("抱歉！您的缴费单验证失败，请及时重新上传缴费单</br>");
         }
 
         //发送邮件

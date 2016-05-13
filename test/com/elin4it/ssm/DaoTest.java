@@ -2,10 +2,7 @@ package com.elin4it.ssm;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.elin4it.ssm.mapper.dao.CommentMapperDao;
-import com.elin4it.ssm.mapper.dao.CommentQuestionnaireMapperDao;
-import com.elin4it.ssm.mapper.dao.ConferenceMapperDao;
-import com.elin4it.ssm.mapper.dao.UserMapperDao;
+import com.elin4it.ssm.mapper.dao.*;
 import com.elin4it.ssm.mybatis.pagination.Order;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.pojo.*;
@@ -42,6 +39,8 @@ public class DaoTest {
     @Autowired
     CommentMapperDao commentMapperDao;
 
+    @Autowired
+    ReviewerThemeMapperDao reviewerThemeMapperDao;
     @Test
     public void testSelectByNameAndPwd() throws Exception {
     }
@@ -97,6 +96,13 @@ public class DaoTest {
         List<Comment> comment =commentMapperDao.selectCommentByPaperId(1);
         System.out.print("**************");
         System.out.println(comment);
+    }
+
+    @Test
+    public void testSelectreviewerBytheme(){
+        List<ReviewerTheme> reviewerThemes =reviewerThemeMapperDao.getByThemeId(1);
+        System.out.print("**************");
+        System.out.println(reviewerThemes);
     }
 
 }

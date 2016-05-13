@@ -15,6 +15,8 @@ import java.util.List;
 public interface PaperMapperDao extends PaperMapper {
     List<Paper> selectPaper(PageBounds<Paper> pageBounds);
 
+    List<Paper> selectPaperByStatus(PageBounds<Paper> pageBounds,@Param("paper_status")int paper_status);
+
     List<Paper> selectPaperByUid(int user_id);
 
     List<Paper> selectPaperByUid(PageBounds<Paper> pageBounds, @Param("user_id") int uid);
