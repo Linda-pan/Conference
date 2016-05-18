@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
-<%@ include file="/WEB-INF/common/submenu.jsp" %>
+
 
 <div class="container-fluid">
     <div class="row-fluid">
@@ -71,23 +71,26 @@
         </div>
     </div>
 </div>
-<div>
-    <div align="center">
-        <h2>跟进会议状态</h2>
+
+<c:if test="${statu==1}">
+    <div>
+        <div align="center">
+            <h2>跟进会议状态</h2>
+        </div>
+        <div align="center">
+            <form>
+                <div style="width:15%;">
+                    <select class="form-control-horizontal" name="status" id="status_id">
+                        <c:forEach items="${StatusMap}" var="type">
+                            <option value="${type.key}">${type.value}</option>
+                        </c:forEach>
+                    </select>
+                </div>
+                <input class="btn btn-primary" type="button" id="searchBtn" value="确定" onclick="changeStatus()">
+            </form>
+        </div>
     </div>
-    <div align="center">
-        <form>
-            <div style="width:15%;">
-                <select class="form-control-horizontal" name="status" id="status_id">
-                    <c:forEach items="${StatusMap}" var="type">
-                        <option value="${type.key}">${type.value}</option>
-                    </c:forEach>
-                </select>
-            </div>
-            <input class="btn btn-primary" type="button" id="searchBtn" value="确定" onclick="changeStatus()">
-        </form>
-    </div>
-</div>
+</c:if>
 
 <script>
     $(function () {
@@ -108,17 +111,17 @@
                             $('#end_date_id').val(conference.endTime);
                             $('#conference_status').val(conference.conferenceStatus);
                             var n = parseInt(conference.conferenceStatus);
-                            var status="";
-                            if (n== 0) {
-                                status="<%=ConferenceStatusConst.S0%>";
-                            } else if (n== 1) {
-                                status="<%=ConferenceStatusConst.S1%>";
-                            } else if (n ==2) {
-                                status="<%=ConferenceStatusConst.S2%>";
-                            } else if (n== 3) {
-                                status="<%=ConferenceStatusConst.S3%>";
-                            } else if (n== 4) {
-                                status="<%=ConferenceStatusConst.S4%>";
+                            var status = "";
+                            if (n == 0) {
+                                status = "<%=ConferenceStatusConst.S0%>";
+                            } else if (n == 1) {
+                                status = "<%=ConferenceStatusConst.S1%>";
+                            } else if (n == 2) {
+                                status = "<%=ConferenceStatusConst.S2%>";
+                            } else if (n == 3) {
+                                status = "<%=ConferenceStatusConst.S3%>";
+                            } else if (n == 4) {
+                                status = "<%=ConferenceStatusConst.S4%>";
                             }
                             $('#conference_status1').val(status);
                         }

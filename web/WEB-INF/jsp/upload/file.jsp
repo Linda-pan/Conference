@@ -7,14 +7,14 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
-<%@ include file="/WEB-INF/common/submenu.jsp" %>
+
 
 <div align="center">
     <h1>上传多个附件</h1>
-    <form method="post" action="/upload/doUpload2" enctype="multipart/form-data">
-        <input type="file" name="file1"/>
+    <form method="post" action="${ctx}/upload/doUpload" enctype="multipart/form-data">
+        <input type="file" name="file"/>
         <br/>
-        <input type="file" name="file2"/>
+      <%--  <input type="file" name="file2"/>--%>
         <input type="submit"/>
     </form>
 

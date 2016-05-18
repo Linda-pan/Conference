@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
-<%@ include file="/WEB-INF/common/submenu.jsp" %>
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="tit">
@@ -30,7 +30,7 @@
                 <th data-field="passpaperNum" data-align="">通过论文数目</th>
                 <th data-field="inform" data-align="" data-formatter="changeEmail">邮件通知</th>
                 <th data-field="isPaymentConfirmed" data-align="" data-formatter="changeStatus">缴费图片是否已通过审核</th>
-                <th data-field="" data-align="">缴费图片（点击审核缴费图片）</th>
+                <th data-field="url" data-align="" data-formatter="lookImage">缴费图片（点击审核缴费图片）</th>
             </tr>
             </thead>
         </table>
@@ -81,6 +81,13 @@
         };
     }
 
+    function look(url) {
+        if (url == null || url.replace(/\s/g, "") == '') {
+            return;
+        }
+        window.open(url);
+    }
+
     $('#change_detail_close').on('click', function () {
         closeModal("change_detail_id", "change_detail_mask");
     });
@@ -107,6 +114,17 @@
         return a;
     }
 
+    function lookImage(value, row, index) {
+        var content = [];
+        content.push('<a href= '+value +' ');
+        content.push(' target="_blank" ');
+        content.push('>');
+        content.push(value);
+        content.push('</a>');
+        var a = content.join('');
+        return a;
+    }
+
     function change(userId) {
         $('#user_id').val(userId);
         showModal("change_detail_id", "change_detail_mask");
@@ -118,7 +136,7 @@
             content.push('<a href="javascript:;"  ');
             content.push('onclick="sent1(' + row.userId + ');return false;" ');
             content.push('>');
-            content.push("通知已通过审核");
+            content.push("再次通知已通过审核");
             content.push('</a>');
         } else if (value == 2) {
             content.push('<a href="javascript:;"  ');

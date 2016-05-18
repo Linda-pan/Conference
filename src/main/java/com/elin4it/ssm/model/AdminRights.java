@@ -11,7 +11,7 @@ public class AdminRights {
 
     private int roleId;
 
-    private String username;
+    private String username="";
     public String getUsername() {
         return username;
     }

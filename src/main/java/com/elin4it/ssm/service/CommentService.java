@@ -31,7 +31,7 @@ public class CommentService {
     private PaperService paperService;
 
     @Autowired
-    private PaperMapperDao paperMapperDao;
+    private UserService userService;
 
     @Autowired
     private ReviewerPaperMapperDao reviewerPaperMapperDao;
@@ -82,13 +82,20 @@ public class CommentService {
 
             if(paper.getAverageScore()>=75){
                 paper.setPaperStatus((byte)2);
-                /**此处应该发送邮件通知***/
-
+               User user=userService.selectById(userId);
+                if (user.getPaymentVoucher()!=null){
+                    paper.setPaperStatus((byte)3);
+                }
+                if (user.getIsPaymentConfirmed()!=null){
+                    paper.setPaperStatus((byte)4);
+                }
+                /**发送邮件通知***/
+            userService.processInformPasspaper(userId,paper.getPaperName());
 
             }else{
                 paper.setPaperStatus((byte)6);
-                /**此处应该发送邮件通知***/
-
+                /**发送邮件通知***/
+                userService.processInformFailpaper(userId,paper.getPaperName());
             }
         }
     }

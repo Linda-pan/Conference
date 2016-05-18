@@ -7,10 +7,7 @@ import com.elin4it.ssm.mapper.dao.PaperMapperDao;
 import com.elin4it.ssm.mapper.dao.ReviewerPaperMapperDao;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.mybatis.pagination.PageList;
-import com.elin4it.ssm.pojo.Comment;
-import com.elin4it.ssm.pojo.Paper;
-import com.elin4it.ssm.pojo.ReviewerPaper;
-import com.elin4it.ssm.pojo.User;
+import com.elin4it.ssm.pojo.*;
 import com.elin4it.ssm.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -204,18 +201,64 @@ public class PaperService {
         return paperModelList;
     }
 
-    public void insert(String name){
-        Paper paper =new Paper();
+    public void insert(Paper paper) {
 
         paper.setUserId(WebUtil.getCurrentUser().getUserId());
         paper.setCreateTime(new Date());
-        paper.setPaperStatus((byte)0);
-        paper.setPaperName(name);
+        paper.setPaperStatus((byte) 0);
 
-        /***补***/
-        paper.setPaperContent("");
         paper.setIsEmailPost(false);
 
         paperMapperDao.insertSelective(paper);
     }
+
+    public List<JSONObject> findAllUndoPaperPage(PageBounds<JSONObject> pageBounds) {
+        PageBounds<Paper> param = new PageBounds<>(pageBounds.getPageNo(), pageBounds.getPageSize(), pageBounds.getOrders());
+
+        List<JSONObject> paperModelList = new ArrayList<>();
+
+        List<Paper> undopapers = paperMapperDao.selectPaperByStatus(param, 0);
+
+        for (Paper paper : undopapers) {
+            JSONObject paperModel = new JSONObject();
+            paperModel.put("paperId", paper.getPaperId());
+            paperModel.put("userId", paper.getUserId());
+            paperModel.put("paperName", paper.getPaperName());
+            List<AllPaperTheme> paperThemes = allPaperThemeService.getThemeByPaperId(paper.getPaperId());
+            paperModel.put("theme1", paperThemes.get(0).getTheme());
+            paperModel.put("theme1Id", paperThemes.get(0).getThemeId());
+            if (paperThemes.size()==2) {
+                paperModel.put("theme2", paperThemes.get(1).getTheme());
+                paperModel.put("theme2Id", paperThemes.get(1).getThemeId());
+            } else {
+                paperModel.put("theme2", "");
+            }
+
+            int count = 0;
+            List<ReviewerPaper> reviewerPapers = reviewerPaperMapperDao.selectReviewerByPaperId(paper.getPaperId());
+            for (ReviewerPaper reviewerPaper : reviewerPapers) {
+                count++;
+            }
+            paperModel.put("reviewernum", count);
+            paperModel.put("createTime", paper.getCreateTime().toString());
+            paperModelList.add(paperModel);
+        }
+
+
+        PageList<JSONObject> pageList = new PageList<>(param.getPageList().getPageNo(), param.getPageList().getPageSize(), param.getPageList().getTotalCount(), paperModelList);
+        pageBounds.setPageList(pageList);
+
+        return paperModelList;
+    }
+
+   public void changeStatus(int userId){
+       List<Paper> paperList =paperMapperDao.selectPaperByUid(userId);
+       for (Paper paper : paperList) {
+           if(paper.getPaperStatus()==2){
+               paper.setPaperStatus((byte)3);
+           }
+           paperMapperDao.updateByPrimaryKeySelective(paper);
+       }
+
+   }
 }

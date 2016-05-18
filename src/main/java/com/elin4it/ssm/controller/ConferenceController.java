@@ -9,6 +9,7 @@ import com.elin4it.ssm.pojo.Conference;
 import com.elin4it.ssm.pojo.ConferenceStatus;
 import com.elin4it.ssm.service.ConferenceService;
 import com.elin4it.ssm.utils.DateUtils;
+import com.elin4it.ssm.utils.WebUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,6 +36,8 @@ public class ConferenceController extends BaseController{
         statusMap.put("4", ConferenceStatusConst.S4);
         model.put("StatusMap", statusMap);
 
+       int roleId= WebUtil.getCurrentUser().getRoleId();
+        model.put("statu", roleId);
         return "/conference/detail";
     }
 

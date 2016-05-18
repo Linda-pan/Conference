@@ -8,7 +8,7 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
-<%@ include file="/WEB-INF/common/submenu.jsp" %>
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="tit">

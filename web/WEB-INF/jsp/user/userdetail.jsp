@@ -13,7 +13,6 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
-<%@ include file="/WEB-INF/common/submenu.jsp" %>
 
 
 <div class="container-fluid" id="user_detail_id">
@@ -70,8 +69,9 @@
                                readonly>
                     </li>
                 </ul>
+
                 <ul>
-                    <li style="margin-top: 10px;"><label style="width: 40%;"></label>
+                    <li style="margin-top: 10px;">
                         <c:if test="${statu==1}">
                             <input type="button"
                                    value="修改用户信息"
@@ -82,6 +82,53 @@
                         </c:if>
                     </li>
                 </ul>
+                <br>
+                <br>
+
+                <c:if test="${roleId==2}">
+                    <ul>
+                        <li style="margin-top: 10px;">
+                            <label style="width: 40%;">擅长主题1：</label>
+                            <select id="type1" name="first_theme_id" style="width:400px;">
+                                <c:forEach items="${type}" var="type">
+                                    <option value="${type.themeId }">${type.theme}</option>
+                                </c:forEach>
+                            </select>
+
+                            <label style="width: 40%;">擅长主题2：</label>
+                            <select id="type2" name="second_theme_id" style="width:400px;">
+                                <c:forEach items="${type}" var="type">
+                                    <option value="${type.themeId }">${type.theme}</option>
+                                </c:forEach>
+                            </select>
+
+                            <label style="width: 40%;">擅长主题3：</label>
+                            <select id="type3" name="first_theme_id" style="width:400px;">
+                                <c:forEach items="${type}" var="type">
+                                    <option value="${type.themeId }">${type.theme}</option>
+                                </c:forEach>
+                            </select>
+
+                            <label style="width: 40%;">擅长主题4：</label>
+                            <select id="type4" name="second_theme_id" style="width:400px;">
+                                <c:forEach items="${type}" var="type">
+                                    <option value="${type.themeId }">${type.theme}</option>
+                                </c:forEach>
+                            </select>
+                        </li>
+                    </ul>
+                    <ul>
+                        <li style="margin-top: 10px;">
+                            <label style="width: 40%;"></label>
+                            <input type="button"
+                                   value="修改主题"
+                                   class="btn btn-primary" onclick="changeTheme()">
+
+                        </li>
+                    </ul>
+
+                </c:if>
+
             </form>
         </div>
         <div class="panel-footer">
@@ -275,6 +322,37 @@
 
     function changeDetail() {
         showModal("change_detail_id", "change_detail_mask");
+    }
+
+    function changeTheme() {
+        $.ajax({
+            url: '${ctx}/user/savetheme',
+            type: 'post',
+            datatype: 'json',
+            data: {
+                type1: $('#type1').val(),
+                type2: $('#type2').val(),
+                type3: $('#type3').val(),
+                type4: $('#type4').val(),
+                userId: $('#user_id').val()
+            },
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result != null) {
+                    if (result.status == 'true') {
+                        $.scojs_message(result.message, $.scojs_message.TYPE_OK);
+                        return true;
+                    } else {
+                        $.scojs_message(result.message, $.scojs_message.TYPE_ERROR);
+                    }
+                }
+            },
+            error: function (result) {
+                requestError(result);
+            }
+        });
+
+        return false;
     }
 
     function saveDetail() {

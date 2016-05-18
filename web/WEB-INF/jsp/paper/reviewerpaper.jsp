@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
-<%@ include file="/WEB-INF/common/submenu.jsp" %>
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="tit">
@@ -25,7 +25,7 @@
                 <th data-field="paperId" data-align="">ID</th>
                 <th data-field="paperName" data-align="">论文名</th>
                 <th data-field="authorName" data-align="" data-formatter="authorDetail">论文作家</th>
-                <th data-field="paperContent" data-align="">论文内容</th>
+                <th data-field="paperContent" data-align="" data-formatter="look">论文内容</th>
                 <th data-field="themeStr" data-align="">论文主题</th>
                 <th data-field="paperStatus" data-align="" data-formatter="paperStatusDetail">论文状态</th>
                 <th data-field="averageScore" data-align="" data-formatter="scoreDetail">平均分(点击查看得分情况,三个专家评分后显示平均分)</th>
@@ -47,6 +47,17 @@
             pageNo: params.pageNumber,
             userId: $('#user_id').val()
         };
+    }
+
+    function look(value, row, index) {
+        var content = [];
+        content.push('<a href= '+value +' ');
+        content.push(' target="_blank" ');
+        content.push('>');
+        content.push(value);
+        content.push('</a>');
+        var a = content.join('');
+        return a;
     }
 
     function paperStatusDetail(value, row, index) {

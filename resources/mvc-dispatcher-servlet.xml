@@ -33,27 +33,22 @@
             <mvc:mapping path="/**"></mvc:mapping>
             <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
         </mvc:interceptor>
-       <!-- <mvc:interceptor>
+     <mvc:interceptor>
             <mvc:mapping path="/**"></mvc:mapping>
             <mvc:exclude-mapping path="/static/**"></mvc:exclude-mapping>
-            <mvc:exclude-mapping path="/h5/**"></mvc:exclude-mapping>
-
-            <mvc:exclude-mapping path="/helpapi/**"></mvc:exclude-mapping>
-          	<mvc:exclude-mapping path="/livestream/**" ></mvc:exclude-mapping>
-            <bean class="com.elin4it.ssm.interceptor.AuthorizationInterceptor">
-                <property name="excludedUrls">
-                    <list>
-                        <value>/</value>
-                        <value>/login</value>
-                        <value>/appadmin/rightscontrol</value>
-                        <value>/pushadmin</value>
-                        <value>/helpapi</value>
-                        <value>/datacleaning/is_check_ok</value>
-                        <value>/imserver/list</value>
+          <bean class="com.elin4it.ssm.interceptor.AuthorizationInterceptor">
+                  <property name="excludedUrls">
+                      <list>
+                          <value>/</value>
+                          <value>/login</value>
+                          <value>/register</value>
+                          <value>/registersave</value>
+                           <value>/logout</value>
+                          <value>/emaillogin</value>
                     </list>
                 </property>
             </bean>
-        </mvc:interceptor>-->
+        </mvc:interceptor>
     </mvc:interceptors>
 
     <mvc:default-servlet-handler/>

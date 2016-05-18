@@ -1,8 +1,10 @@
 package com.elin4it.ssm.service;
 
+import com.cpvsn.core.encode.MD5Util;
 import com.elin4it.ssm.mapper.dao.UserMapperDao;
 import com.elin4it.ssm.model.UserModel;
 import com.elin4it.ssm.pojo.User;
+import com.elin4it.ssm.utils.Md5;
 import com.sun.tracing.dtrace.ProviderAttributes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,7 +32,7 @@ public class UserModelService {
         date=calendar.getTime();
 
         userModel.setRegisterTime(date);
-        userModel.setValidateCode("^^^^^^^");
+        userModel.setValidateCode(Md5.encode2hex(user.getEmail()));
         return userModel;
     }
 }

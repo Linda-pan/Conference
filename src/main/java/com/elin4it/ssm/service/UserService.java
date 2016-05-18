@@ -12,6 +12,7 @@ import com.elin4it.ssm.mybatis.pagination.Order;
 import com.elin4it.ssm.mybatis.pagination.PageBounds;
 import com.elin4it.ssm.mybatis.pagination.PageList;
 import com.elin4it.ssm.pojo.*;
+import com.elin4it.ssm.utils.Md5;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
@@ -65,11 +66,14 @@ public class UserService {
     }
 
     public int insert(User user) {
+        user.setPassword(Md5.encode2hex(user.getPassword()));
+
         user.setIsEmailConfirmed(false);
         user.setRoleId((byte) 0);
         user.setIsShowName(true);
         user.setTitle("暂无头衔");
         user.setPaymentVoucher("");
+
         return userMapperDao.insertSelective(user);
     }
 
@@ -147,6 +151,7 @@ public class UserService {
                 userModel.put("userId", user.getUserId());
                 userModel.put("trueName", user.getTrueName());
                 userModel.put("telephone", user.getTelephone());
+                userModel.put("url", user.getPaymentVoucher());
 
                 int c = 0;
                 int a = 0;
@@ -291,7 +296,6 @@ public class UserService {
         SendEmail.send(user.getEmail(), sb.toString());
     }
 
-
     public void processActivate(UserModel userModel, String validateCode) throws BusinessException, ParseException {
         User user = this.selectById(userModel.getUserId());
         //验证用户激活状态
@@ -326,6 +330,28 @@ public class UserService {
         SendEmail.send(user.getEmail(), sb.toString());
     }
 
+    public void processInformPasspaper(int userId,String name) throws BusinessException {
+        User user = this.selectById(userId);
+
+        StringBuffer sb = new StringBuffer("恭喜您，</br>");
+        sb.append("您的论文：");
+        sb.append(name);
+        sb.append("通过审核，请尽快缴费并上传您的缴费单</br>");
+        //发送邮件
+        SendEmail.send(user.getEmail(), sb.toString());
+    }
+
+    public void processInformFailpaper(int userId,String name) throws BusinessException {
+        User user = this.selectById(userId);
+
+        StringBuffer sb = new StringBuffer("很遗憾，</br>");
+        sb.append("您的论文：");
+        sb.append(name);
+        sb.append("未通过审核，</br>");
+        //发送邮件
+        SendEmail.send(user.getEmail(), sb.toString());
+    }
+
     public void processInformUpload(int userId) throws BusinessException {
         User user = this.selectById(userId);
 
@@ -354,6 +380,25 @@ public class UserService {
 
         //发送邮件
         SendEmail.send(user.getEmail(), sb.toString());
+    }
+
+    public void savePicture(int userId,String pic){
+        User user =userMapperDao.selectByPrimaryKey(userId);
+        user.setPaymentVoucher(pic);
+        user.setUpdateTime(new Date());
+        this.update(user);
+    }
+
+    public int isPassPaperNumByAuthorId(int userId){
+        List<Paper> paperList =paperService.findPaperByAuthorId(userId);
+        int count=0;
+        for (Paper paper : paperList) {
+            if(paper.getPaperStatus()==2||paper.getPaperStatus()==3||paper.getPaperStatus()==4)
+            {
+                count++;
+            }
+        }
+        return count;
     }
 
 }

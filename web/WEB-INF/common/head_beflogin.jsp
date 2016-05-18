@@ -123,9 +123,9 @@
 						class="icon-bar"></span><span class="icon-bar"></span><span
 						class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="${ctx }/login">登录</a>
+				<a class="navbar-brand" href="${ctx }">登录</a>
 			</div>
-		
+
 		</div>
 		</header>
 

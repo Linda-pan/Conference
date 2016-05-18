@@ -103,6 +103,7 @@ public class DaoTest {
         List<ReviewerTheme> reviewerThemes =reviewerThemeMapperDao.getByThemeId(1);
         System.out.print("**************");
         System.out.println(reviewerThemes);
+
     }
 
 }

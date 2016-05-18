@@ -7,7 +7,7 @@
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ include file="/WEB-INF/common/head.jsp" %>
-<%@ include file="/WEB-INF/common/submenu.jsp" %>
+
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="tit">
@@ -96,7 +96,7 @@
     function roleDetail(value, row, index) {
         var content = [];
         content.push('<a href="javascript:;"  ');
-        content.push('onclick="changeRole(' + row.userId + ');return false;" ');
+        content.push('onclick="changeRole(' + row.userId + ',\''+ row.trueName+'\');return false;" ');
         content.push('>');
 
         if (value == 0) {
@@ -109,8 +109,6 @@
 
         content.push('</a>');
         var a = content.join('');
-        $('#userName').val(row.trueName);
-        $('#userId').val(row.userId);
         return a;
     }
 
@@ -128,7 +126,9 @@
         closeModal("change_role_id", "change_role_mask");
     });
 
-    function changeRole() {
+    function changeRole(userId,userName) {
+        $('#userName').val(userName);
+        $('#userId').val(userId);
         showModal("change_role_id", "change_role_mask");
     }
 
