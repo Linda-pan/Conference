@@ -34,7 +34,7 @@ public class CommentService {
     private UserService userService;
 
     @Autowired
-    private ReviewerPaperMapperDao reviewerPaperMapperDao;
+    private PaperMapperDao paperMapperDao;
 
     @Autowired
     private ReviewerPaperService reviewerPaperService;
@@ -77,26 +77,30 @@ public class CommentService {
                 averageScore += comment1.getScore();
                 count++;
             }
-            Paper paper=paperService.getByPaperId(comment.getPaperId());
+            Paper paper = paperService.getByPaperId(comment.getPaperId());
             paper.setAverageScore(averageScore / count);
 
-            if(paper.getAverageScore()>=75){
-                paper.setPaperStatus((byte)2);
-               User user=userService.selectById(userId);
-                if (user.getPaymentVoucher()!=null){
-                    paper.setPaperStatus((byte)3);
+            if (paper.getAverageScore() >= 75) {
+                paper.setPaperStatus((byte) 2);
+                User user = userService.selectById(userId);
+                if (user.getPaymentVoucher() != null) {
+                    paper.setPaperStatus((byte) 3);
                 }
-                if (user.getIsPaymentConfirmed()!=null){
-                    paper.setPaperStatus((byte)4);
+                if (user.getIsPaymentConfirmed() != null) {
+                    paper.setPaperStatus((byte) 4);
                 }
                 /**发送邮件通知***/
-            userService.processInformPasspaper(userId,paper.getPaperName());
+                userService.processInformPasspaper(userId, paper.getPaperName());
+                paper.setIsEmailPost(true);
 
-            }else{
-                paper.setPaperStatus((byte)6);
+            } else {
+                paper.setPaperStatus((byte) 6);
                 /**发送邮件通知***/
-                userService.processInformFailpaper(userId,paper.getPaperName());
+                userService.processInformFailpaper(userId, paper.getPaperName());
+                paper.setIsEmailPost(true);
             }
+
+            paperMapperDao.updateByPrimaryKeySelective(paper);
         }
     }
 
@@ -138,16 +142,16 @@ public class CommentService {
 
             for (int i = 0; i <= 4; i++) {
                 if (result[i] == 0) {
-                    rStr[i] = que[i] + " : 优";
+                    rStr[i] = que[i] + " : A";
                 }
                 if (result[i] == 1) {
-                    rStr[i] = que[i] + " : 良";
+                    rStr[i] = que[i] + " : B";
                 }
                 if (result[i] == 2) {
-                    rStr[i] = que[i] + " : 及格";
+                    rStr[i] = que[i] + " : C";
                 }
                 if (result[i] == 3) {
-                    rStr[i] = que[i] + " : 差";
+                    rStr[i] = que[i] + " : D";
                 }
             }
 

@@ -401,5 +401,35 @@ public class UserService {
         return count;
     }
 
+    public void checkReviewerToAuthor(int userId)throws BusinessException{
+        int num = 0;
+        List<ReviewerPaper> reviewpapers = reviewerPaperMapperDao.selectReviewerPaperByReviewerId(userId);
+        for (ReviewerPaper reviewpaper : reviewpapers) {
+
+            CommentKey comKey = new CommentKey();
+            comKey.setUserId(userId);
+            comKey.setPaperId(reviewpaper.getPaperId());
+
+            if (commentMapperDao.selectByPrimaryKey(comKey) == null) {
+                num++;
+            }
+        }
+
+        if(num!=0){
+            throw new BusinessException("该审核员还有论文未审核，无法改变权限！");
+        }
+    }
+
+    public void checkAuthorToReviewer(int userId)throws BusinessException{
+        int num = 0;
+        List<Paper> paperList = paperService.findPaperByAuthorId(userId);
+        for (Paper paper : paperList) {
+           num++;
+        }
+        if(num!=0){
+            throw new BusinessException("该作家已经上传论文，无法修改权限！");
+        }
+    }
+
 }
 

@@ -147,6 +147,7 @@
                 result = JSON.parse(result);
                 if (result != null) {
                     if (result.status == 'true') {
+                        $.scojs_message(result.message, $.scojs_message.TYPE_OK);
                         closeModal("change_role_id", "change_role_mask");
                     } else {
                         $.scojs_message(result.message, $.scojs_message.TYPE_ERROR);

@@ -82,10 +82,12 @@
                         </c:if>
                     </li>
                 </ul>
-                <br>
-                <br>
+            </form>
+            <br>
+            <br>
 
-                <c:if test="${roleId==2}">
+            <c:if test="${roleId==2}">
+                <form id="frm2_id" method="post" action="">
                     <ul>
                         <li style="margin-top: 10px;">
                             <label style="width: 40%;">擅长主题1：</label>
@@ -126,10 +128,10 @@
 
                         </li>
                     </ul>
+                </form>
+            </c:if>
 
-                </c:if>
 
-            </form>
         </div>
         <div class="panel-footer">
         </div>
@@ -211,7 +213,7 @@
     </div>
     <div class="mymodal-form clearfix">
         <form id="detail2_id" method="post">
-            <form id="frm2_id" method="post" action="">
+            <form id="frm3_id" method="post" action="">
                 <input type="hidden" id="user2_id" name="userId"/>
                 <ul>
                     <li>
@@ -310,6 +312,34 @@
                 requestError(result);
             }
         });
+
+        <c:if test="${roleId==2}">
+        $.ajax({
+            url: '${ctx}/user/themedetail',
+            type: 'post',
+            datatype: 'json',
+            data: {userId: userId},
+            success: function (result) {
+                result = JSON.parse(result);
+                if (result != null) {
+                    if (result.status == 'true') {
+                        var theme = result.data;
+                        if (theme != null) {
+                            $('#type1').val(theme.theme1);
+                            $('#type2').val(theme.theme2);
+                            $('#type3').val(theme.theme3);
+                            $('#type4').val(theme.theme4);
+                        }
+                    } else {
+                        $.scojs_message(result.message, $.scojs_message.TYPE_ERROR);
+                    }
+                }
+            },
+            error: function (result) {
+                requestError(result);
+            }
+        });
+        </c:if>
 
         $('#change_detail_close').on('click', function () {
             closeModal("change_detail_id", "change_detail_mask");

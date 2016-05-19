@@ -103,6 +103,7 @@ public class UserController extends BaseController {
         return jsonDataModel.toJSONString();
     }
 
+
     @RequestMapping("save")
     public
     @ResponseBody
@@ -272,23 +273,26 @@ public class UserController extends BaseController {
     String saveUserDetail(int userId, int type1, int type2, Integer type3, Integer type4) {
         JsonDataModel jsonDataModel = new JsonDataModel();
         try {
+            if (type1 == type2 || type1 == type3 || type1 == type4 || type2 == type3 || type2 == type4 || type3 == type4) {
+                jsonDataModel.setErrorCode(ErrorCodeConst.BUS_EXCEPTION);
+                jsonDataModel.setStatus("false");
+                jsonDataModel.setMessage("不能选择相同的主题");
+                return jsonDataModel.toJSONString();
+            }
+
             ReviewerTheme reviewerTheme = new ReviewerTheme();
             reviewerTheme.setUserid(userId);
             reviewerTheme.setTheme1(type1);
             reviewerTheme.setTheme2(type2);
-            if (type3 != null) {
-                reviewerTheme.setTheme3(type3);
-            }
-            if (type4 != null) {
-                reviewerTheme.setTheme4(type4);
-            }
+            reviewerTheme.setTheme3(type3);
+            reviewerTheme.setTheme4(type4);
 
             ReviewerTheme reviewerTheme1 = reviewerThemeMapperDao.selectByPrimaryKey(userId);
-           if (reviewerTheme1==null) {
-               reviewerThemeMapperDao.insert(reviewerTheme);
-           }else{
-               reviewerThemeMapperDao.updateByPrimaryKeySelective(reviewerTheme);
-           }
+            if (reviewerTheme1 == null) {
+                reviewerThemeMapperDao.insert(reviewerTheme);
+            } else {
+                reviewerThemeMapperDao.updateByPrimaryKeySelective(reviewerTheme);
+            }
 
         } catch (BusinessException e) {
             jsonDataModel.setErrorCode(ErrorCodeConst.BUS_EXCEPTION);
@@ -298,4 +302,23 @@ public class UserController extends BaseController {
 
         return jsonDataModel.toJSONString();
     }
+
+    @RequestMapping("themedetail")
+    public
+    @ResponseBody
+    String getThemeDetail(int userId) {
+        JsonDataModel jsonDataModel = new JsonDataModel();
+        try {
+            ReviewerTheme reviewerTheme = reviewerThemeMapperDao.selectByPrimaryKey(userId);
+            jsonDataModel.setData(reviewerTheme);
+
+        } catch (BusinessException e) {
+            jsonDataModel.setErrorCode(ErrorCodeConst.BUS_EXCEPTION);
+            jsonDataModel.setStatus("false");
+            jsonDataModel.setMessage(e.getLocalizedMessage());
+        }
+
+        return jsonDataModel.toJSONString();
+    }
+
 }
